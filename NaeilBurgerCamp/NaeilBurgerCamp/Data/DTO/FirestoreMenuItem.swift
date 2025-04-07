@@ -1,15 +1,15 @@
 import Foundation
 
-struct FirestoreMenus: Decodable {
+struct FirestoreMenuItems: Decodable {
     let documents: [FirestoreDocument]
 }
 
 struct FirestoreDocument: Decodable {
     let name: String
-    let fields: FirestoreMenu
+    let fields: FirestoreMenuItem
 }
 
-struct FirestoreMenu: Decodable {
+struct FirestoreMenuItem: Decodable {
     let title: FirestoreString
     let category: FirestoreString
     let price: FirestoreInteger
