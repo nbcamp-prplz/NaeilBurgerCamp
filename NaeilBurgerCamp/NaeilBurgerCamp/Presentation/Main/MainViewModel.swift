@@ -2,7 +2,11 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class MainViewModel {
+protocol MainViewModelProtocol {
+    func transform(input: MainViewModel.Input) -> MainViewModel.Output
+}
+
+class MainViewModel: MainViewModelProtocol {
     
     private let disposeBag = DisposeBag()
     
@@ -22,5 +26,8 @@ class MainViewModel {
         let cancelResult: Observable<Void>
         let orderCompletion: Observable<Result<Void, Error>>
     }
-
+    
+    func transform(input: Input) -> Output {
+        <#code#>
+    }
 }
