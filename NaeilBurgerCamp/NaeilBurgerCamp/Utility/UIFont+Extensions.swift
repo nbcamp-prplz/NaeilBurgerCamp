@@ -16,7 +16,7 @@ extension UIFont {
         case extraBold
     }
     
-    class func nanumSquareRound(ofSize fontSize: CGFloat,
+    static func nanumSquareRound(ofSize fontSize: CGFloat,
                            weight: nanumSquareRoundWeight = .normal
     ) -> UIFont {
         switch weight {
