@@ -3,7 +3,7 @@ import Foundation
 final class FirestoreService {
     private let projectID = "naeilburgercamp"
 
-    func fetchMenus() async -> FirestoreMenuItems? {
+    func fetchMenuItems() async -> FSMenuItems? {
         let urlString = "https://firestore.googleapis.com/v1/projects/\(projectID)/databases/(default)/documents/menus"
         guard let url = URL(string: urlString) else { return nil }
 
@@ -12,7 +12,7 @@ final class FirestoreService {
 
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
-            let result = try JSONDecoder().decode(FirestoreMenuItems.self, from: data)
+            let result = try JSONDecoder().decode(FSMenuItems.self, from: data)
             return result
         } catch {
             print("Firestore Error: \(error)")
