@@ -19,7 +19,7 @@ private extension MainViewController {
     }
     
     func setLayout() {
-        view.backgroundColor = UIColor(named: "BCBackground1")
+        view.backgroundColor = .bcBackground1
     }
     
     func setHierarchy() {
