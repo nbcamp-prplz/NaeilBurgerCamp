@@ -16,11 +16,3 @@ struct FSMenuItem: Decodable {
     let price: FSInteger
     let imageURL: FSString
 }
-
-struct FSString: Decodable {
-    let stringValue: String
-}
-
-struct FSInteger: Decodable {
-    let integerValue: String
-}
