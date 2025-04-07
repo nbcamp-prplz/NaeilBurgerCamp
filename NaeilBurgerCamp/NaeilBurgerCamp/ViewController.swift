@@ -1,19 +1,24 @@
-//
-//  ViewController.swift
-//  NaeilBurgerCamp
-//
-//  Created by youseokhwan on 4/7/25.
-//
-
 import UIKit
+import SnapKit
 
-class ViewController: UIViewController {
-
+final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        configure()
     }
-
-
 }
 
+private extension ViewController {
+    func configure() {
+        configureLayout()
+        configureConstraints()
+    }
+
+    func configureLayout() {
+        view.backgroundColor = .white
+    }
+
+    func configureConstraints() {
+
+    }
+}
