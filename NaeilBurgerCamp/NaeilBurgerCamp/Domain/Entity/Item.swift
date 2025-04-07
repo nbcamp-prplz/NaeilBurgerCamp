@@ -7,10 +7,3 @@ struct Item: Decodable {
     let imageURL: String
     let price: Int
 }
-/*
- etc)
- - Calorie: Int
- - isNew: Bool
- - isBest: Bool
- - isOutOfStock: Bool
- */
