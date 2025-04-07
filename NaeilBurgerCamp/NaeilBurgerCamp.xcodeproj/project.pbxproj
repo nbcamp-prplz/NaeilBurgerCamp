@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		440ADC042DA38E97002FF5AA /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 440ADC032DA38E97002FF5AA /* SnapKit */; };
+		440ADC072DA39C7F002FF5AA /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 440ADC062DA39C7F002FF5AA /* RxCocoa */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				440ADC072DA39C7F002FF5AA /* RxCocoa in Frameworks */,
 				440ADC042DA38E97002FF5AA /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -84,6 +86,7 @@
 			name = NaeilBurgerCamp;
 			packageProductDependencies = (
 				440ADC032DA38E97002FF5AA /* SnapKit */,
+				440ADC062DA39C7F002FF5AA /* RxCocoa */,
 			);
 			productName = NaeilBurgerCamp;
 			productReference = 440ADBEA2DA38C68002FF5AA /* NaeilBurgerCamp.app */;
@@ -115,6 +118,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				440ADC022DA38E97002FF5AA /* XCRemoteSwiftPackageReference "SnapKit" */,
+				440ADC052DA39C7F002FF5AA /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 440ADBEB2DA38C68002FF5AA /* Products */;
@@ -360,6 +364,14 @@
 				version = 5.7.1;
 			};
 		};
+		440ADC052DA39C7F002FF5AA /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = exactVersion;
+				version = 6.9.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -367,6 +379,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 440ADC022DA38E97002FF5AA /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		440ADC062DA39C7F002FF5AA /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 440ADC052DA39C7F002FF5AA /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
