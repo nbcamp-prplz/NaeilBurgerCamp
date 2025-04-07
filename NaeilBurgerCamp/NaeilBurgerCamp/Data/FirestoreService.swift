@@ -2,9 +2,14 @@ import Foundation
 
 final class FirestoreService {
     private let projectID = "naeilburgercamp"
+    private let databaseID = "(default)"
+
+    private var baseURL: String {
+        "https://firestore.googleapis.com/v1/projects/\(projectID)/databases/\(databaseID)/documents"
+    }
 
     func fetchMenuItems() async -> FSMenuItems? {
-        let urlString = "https://firestore.googleapis.com/v1/projects/\(projectID)/databases/(default)/documents/menus"
+        let urlString = "\(baseURL)/menuItems"
         guard let url = URL(string: urlString) else { return nil }
 
         var request = URLRequest(url: url)
