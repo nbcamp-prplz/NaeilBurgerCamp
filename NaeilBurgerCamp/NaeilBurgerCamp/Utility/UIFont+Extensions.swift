@@ -25,7 +25,7 @@ extension UIFont {
         case .normal:
             return UIFont(name: "NanumSquareRoundOTF", size: fontSize) ?? .systemFont(ofSize: fontSize)
         case .regular:
-            return UIFont(name: "NanumSquareRoundOTFL", size: fontSize) ?? .systemFont(ofSize: fontSize, weight: .regular)
+            return UIFont(name: "NanumSquareRoundOTFR", size: fontSize) ?? .systemFont(ofSize: fontSize, weight: .regular)
         case .bold:
             return UIFont(name: "NanumSquareRoundOTFB", size: fontSize) ?? .systemFont(ofSize: fontSize, weight: .bold)
         case .extraBold:
