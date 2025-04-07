@@ -10,9 +10,11 @@ struct FSMenuItemDocument: Decodable {
 }
 
 struct FSMenuItem: Decodable {
+    let id: FSString
+    let categoryID: FSString
     let title: FSString
-    let category: FSString
     let price: FSInteger
+    let imageURL: FSString
 }
 
 struct FSString: Decodable {
