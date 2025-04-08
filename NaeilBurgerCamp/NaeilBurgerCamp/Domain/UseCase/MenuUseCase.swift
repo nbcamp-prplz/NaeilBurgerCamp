@@ -9,11 +9,11 @@ protocol MenuUseCaseProtocol {
 }
 
 class MenuUseCase: MenuUseCaseProtocol {
-    private let repository: MenuRepositoryProtocol
+    private let repository: DummyRepositoryProtocol
     let categories = BehaviorSubject<Categories>(value: [])
     let menuItems = BehaviorSubject<MenuItems>(value: [])
 
-    init(repository: MenuRepositoryProtocol) {
+    init(repository: DummyRepositoryProtocol) {
         self.repository = repository
     }
 
