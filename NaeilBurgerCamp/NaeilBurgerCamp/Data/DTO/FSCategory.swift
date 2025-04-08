@@ -12,4 +12,5 @@ struct FSCategoryDocument: Decodable {
 struct FSCategory: Decodable {
     let id: FSString
     let title: FSString
+    let priority: FSInteger
 }
