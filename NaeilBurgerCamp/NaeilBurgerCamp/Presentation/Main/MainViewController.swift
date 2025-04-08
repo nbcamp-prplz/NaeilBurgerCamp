@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 
 final class MainViewController: UIViewController {
-    private let categoryTitles = ["단품", "세트", "사이드", "음료", "기타등등"]
+    private let categoryTitles = ["단품", "세트", "사이드", "음료"]
     private var selectedCategoryIndex = 0
 
     private let logoImageView: UIImageView = {
@@ -57,7 +57,7 @@ private extension MainViewController {
     }
     
     func setBinding() {
-        menuCategoryContainerView.categoryView.setCollectionView(self, self)
+        menuCategoryContainerView.categoryView.setCollectionView(self, self, at: IndexPath(item: 0, section: 0)) // 초기 상태값 설정
     }
 
 
@@ -72,11 +72,10 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCell.identifier, for: indexPath) as? CategoryCell else {
             return UICollectionViewCell()
         }
-        cell.configure(with: categoryTitles[indexPath.item])
-
         if indexPath.item == selectedCategoryIndex {
             cell.isSelected = true
         }
+        cell.configure(with: categoryTitles[indexPath.item])
 
         return cell
     }

@@ -24,9 +24,10 @@ class CategoryView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setCollectionView(_ dataSource: UICollectionViewDataSource, _ delegate: UICollectionViewDelegate) {
+    func setCollectionView(_ dataSource: UICollectionViewDataSource, _ delegate: UICollectionViewDelegate, at index: IndexPath) {
         categoryCollectionView.delegate = delegate
         categoryCollectionView.dataSource = dataSource
+        categoryCollectionView.selectItem(at: index, animated: false, scrollPosition: [])
     }
 }
 
