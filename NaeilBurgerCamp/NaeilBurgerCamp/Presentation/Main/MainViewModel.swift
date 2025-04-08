@@ -16,8 +16,8 @@ final class MainViewModel: MainViewModelProtocol {
     private let quantity = BehaviorRelay<Int>(value: 0)
     
     struct Input {
-        let categorySelected: Observable<Void>
-        let menuItemSelected: Observable<Void>
+        let categorySelected: Observable<Int>
+        let menuItemSelected: Observable<Item>
         let increaseQuantityTapped: Observable<Void>
         let decreaseQuantityTapped: Observable<Void>
         let cancelTapped: Observable<Void>
@@ -27,10 +27,11 @@ final class MainViewModel: MainViewModelProtocol {
         let orders = PublishRelay<Void>()
         let cancelResult = PublishRelay<Void>()
         let items = BehaviorRelay<[Item]>(value: [])
+        let quantity: Observable<Int>
     }
 
     func transform(input: Input) -> Output {
-        var output = Output()
+        var output = Output(quantity: quantity.asObservable())
         return output
     }
 }
