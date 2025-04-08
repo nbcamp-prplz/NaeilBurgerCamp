@@ -11,3 +11,5 @@ struct Category {
         self.sortOrder = Int(dto.sortOrder.integerValue) ?? Int.max
     }
 }
+
+typealias Categories = [Category]
