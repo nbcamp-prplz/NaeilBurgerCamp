@@ -18,10 +18,28 @@ class DummyRepository: DummyRepositoryProtocol {
 extension Category {
     static func dummy() -> [Category] {
         return [
-            Category(id: "1", title: "단품", priority: 0),
-            Category(id: "2", title: "세트", priority: 0),
-            Category(id: "3", title: "사이드", priority: 0),
-            Category(id: "4", title: "음료", priority: 0),
+            Category(
+                from: FSCategory(
+                    id: FSString(stringValue: "0"),
+                    title: FSString(stringValue: "단품"),
+                    sortOrder: FSInteger(integerValue: "0")
+                )
+            ),
+            Category(
+                from: FSCategory(
+                    id: FSString(stringValue: "1"),
+                    title: FSString(stringValue: "세트"),
+                    sortOrder: FSInteger(integerValue: "1")
+                )
+            ),
+            Category(
+                from: FSCategory(
+                    id: FSString(stringValue: "2"),
+                    title: FSString(stringValue: "사이드"),
+                    sortOrder: FSInteger(integerValue: "2")
+                )
+            ),
+
         ]
     }
 }
@@ -29,10 +47,33 @@ extension Category {
 extension MenuItem {
     static func dummy() -> [MenuItem] {
         return [
-            MenuItem(id: 0, categoryID: "1", title: "a", price: 123, imageURL: "Asd"),
-            MenuItem(id: 1, categoryID: "2", title: "a", price: 123, imageURL: "Asd"),
-            MenuItem(id: 2, categoryID: "3", title: "a", price: 123, imageURL: "Asd"),
-            MenuItem(id: 3, categoryID: "4", title: "a", price: 123, imageURL: "Asd"),
+            MenuItem(
+                from: FSMenuItem(
+                    id: FSString(stringValue: "1"),
+                    categoryID:  FSString(stringValue: "1"),
+                    title:  FSString(stringValue: "1"),
+                    price:  FSInteger(integerValue: "1"),
+                    imageURL: FSString(stringValue: "1")
+                )
+            ),
+            MenuItem(
+                from: FSMenuItem(
+                    id: FSString(stringValue: "2"),
+                    categoryID:  FSString(stringValue: "2"),
+                    title:  FSString(stringValue: "2"),
+                    price:  FSInteger(integerValue: "2"),
+                    imageURL: FSString(stringValue: "2")
+                )
+            ),
+            MenuItem(
+                from: FSMenuItem(
+                    id: FSString(stringValue: "3"),
+                    categoryID:  FSString(stringValue: "3"),
+                    title:  FSString(stringValue: "3"),
+                    price:  FSInteger(integerValue: "3"),
+                    imageURL: FSString(stringValue: "3")
+                )
+            ),
         ]
     }
 }
