@@ -2,12 +2,17 @@ import UIKit
 import SnapKit
 
 final class MainViewController: UIViewController {
+    private let categoryTitles = ["단품", "세트", "사이드", "음료", "기타등등"]
+    private var selectedCategoryIndex = 0
+
     private let logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = .horizontalLogo
 
         return imageView
     }()
+
+    private let menuCategoryContainerView = MenuCategoryContainerView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +34,7 @@ private extension MainViewController {
     }
     
     func setHierarchy() {
-        view.addSubviews(logoImageView)
+        view.addSubviews(logoImageView, menuCategoryContainerView)
     }
     
     func setConstraints() {
@@ -39,13 +44,48 @@ private extension MainViewController {
             make.width.equalTo(170)
             make.height.equalTo(40)
         }
+
+        menuCategoryContainerView.snp.makeConstraints { make in
+            make.top.equalTo(logoImageView.snp.bottom).offset(16)
+            make.directionalHorizontalEdges.equalToSuperview()
+            make.height.equalTo(28)
+        }
     }
     
     func setActions() {
-        
+
     }
     
     func setBinding() {
-        
+        menuCategoryContainerView.categoryView.setCollectionView(self, self)
+    }
+
+
+}
+
+extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return categoryTitles.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCell.identifier, for: indexPath) as? CategoryCell else {
+            return UICollectionViewCell()
+        }
+        cell.configure(with: categoryTitles[indexPath.item])
+
+        if indexPath.item == selectedCategoryIndex {
+            cell.isSelected = true
+        }
+
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedCategoryIndex = indexPath.item // 확장성 고려해서 선택된 item을 변경
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 80, height: 28)
     }
 }
