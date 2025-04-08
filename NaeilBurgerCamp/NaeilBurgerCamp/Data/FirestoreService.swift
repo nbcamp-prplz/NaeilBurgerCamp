@@ -41,4 +41,21 @@ final class FirestoreService {
             return nil
         }
     }
+
+    func fetchOrders() async -> FSOrders? {
+        let urlString = "\(baseURL)/orders"
+        guard let url = URL(string: urlString) else { return nil }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+
+        do {
+            let (data, _) = try await URLSession.shared.data(for: request)
+            let result = try JSONDecoder().decode(FSOrders.self, from: data)
+            return result
+        } catch {
+            print("Firestore Error: \(error)")
+            return nil
+        }
+    }
 }
