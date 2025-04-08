@@ -11,6 +11,9 @@ protocol MainViewModelProtocol: AnyObject {
 
 final class MainViewModel: MainViewModelProtocol {
     private let disposeBag = DisposeBag()
+    private let selectedCategory = BehaviorRelay<Int>(value: 1)
+    private let selectedMenuItem = PublishRelay<Item>()
+    private let quantity = BehaviorRelay<Int>(value: 0)
     
     struct Input {
         let categorySelected: Observable<Void>
