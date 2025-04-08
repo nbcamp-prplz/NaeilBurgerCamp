@@ -29,9 +29,48 @@ final class MainViewModel: MainViewModelProtocol {
         let items = BehaviorRelay<[Item]>(value: [])
         let quantity: Observable<Int>
     }
-
+    
     func transform(input: Input) -> Output {
         var output = Output(quantity: quantity.asObservable())
+        
+        input.categorySelected
+            .bind(to: selectedCategory)
+            .disposed(by: disposeBag)
+        
+        input.menuItemSelected
+            .bind(to: selectedMenuItem)
+            .disposed(by: disposeBag)
+        
+        input.increaseQuantityTapped
+            .subscribe(onNext: { [weak self] in
+                let currentQuantity = self?.quantity.value ?? 0
+                self?.quantity.accept(currentQuantity + 1)
+            })
+            .disposed(by: disposeBag)
+        
+        input.decreaseQuantityTapped
+            .subscribe(onNext: { [weak self] in
+                let currentQuantity = self?.quantity.value ?? 0
+                if currentQuantity > 0 {
+                    self?.quantity.accept(currentQuantity - 1)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        input.cancelTapped
+            .subscribe(onNext: { [weak self] in
+                self?.quantity.accept(0)
+                output.cancelResult.accept(())
+            })
+            .disposed(by: disposeBag)
+        
+        input.orderTapped
+            .subscribe(onNext: { [weak self] in
+                
+                output.orders.accept(())
+            })
+            .disposed(by: disposeBag)
+        
         return output
     }
 }
