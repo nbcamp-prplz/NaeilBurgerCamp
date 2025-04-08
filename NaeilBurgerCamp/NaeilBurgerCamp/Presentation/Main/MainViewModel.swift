@@ -10,14 +10,11 @@ protocol MainViewModelProtocol: AnyObject {
 }
 
 final class MainViewModel: MainViewModelProtocol {
-    
     private let disposeBag = DisposeBag()
     var output: Output = Output()
     
     struct Input {}
     struct Output {}
     
-    func transform(input: Input) {
-        <#code#>
-    }
+    func transform(input: Input) { }
 }
