@@ -2,8 +2,8 @@ import UIKit
 import SnapKit
 
 final class MainViewController: UIViewController {
-    private let categoryTitles = ["단품", "세트", "사이드", "음료"]
-    private var selectedCategoryIndex = 0
+    private let dummyCategoryTitles = ["단품", "세트", "사이드", "음료"]
+    private var dummySelectedCategoryIndex = 0
 
     private let logoImageView: UIImageView = {
         let imageView = UIImageView()
