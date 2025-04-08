@@ -2,7 +2,7 @@ import Foundation
 
 protocol DummyRepositoryProtocol {
     func fetchCategories() -> Categories
-    func fetchMenuItems(categoryID: String) -> MenuItems
+    func fetchMenuItems(for categoryID: String) -> MenuItems
 }
 
 class DummyRepository: DummyRepositoryProtocol {
@@ -10,7 +10,7 @@ class DummyRepository: DummyRepositoryProtocol {
         return Category.dummy()
     }
 
-    func fetchMenuItems(categoryID: String) -> MenuItems {
+    func fetchMenuItems(for categoryID: String) -> MenuItems {
         return MenuItem.dummy()
     }
 }
