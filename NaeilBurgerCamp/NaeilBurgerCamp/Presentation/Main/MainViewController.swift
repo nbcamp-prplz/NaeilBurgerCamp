@@ -2,9 +2,9 @@ import UIKit
 import SnapKit
 
 final class MainViewController: UIViewController {
-    private let horizontalLogo: UIImageView = {
+    private let logoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "HorizontalLogo")
+        imageView.image = .horizontalLogo
 
         return imageView
     }()
@@ -29,13 +29,13 @@ private extension MainViewController {
     }
     
     func setHierarchy() {
-        view.addSubviews(horizontalLogo)
+        view.addSubviews(logoImageView)
     }
     
     func setConstraints() {
-        horizontalLogo.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(20)
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(8)
+        logoImageView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(8)
+            make.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
             make.width.equalTo(170)
             make.height.equalTo(40)
         }
