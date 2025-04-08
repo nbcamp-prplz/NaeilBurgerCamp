@@ -1,35 +1,31 @@
-//
-//  UIFont+Extensions.swift
-//  NaeilBurgerCamp
-//
-//  Created by 이수현 on 4/7/25.
-//
-
 import UIKit
 
 extension UIFont {
-    enum nanumSquareRoundWeight {
-        case light
-        case normal
-        case regular
-        case bold
-        case extraBold
+    enum nanumSquareRoundWeight: String {
+        case light = "L"
+        case regular = "R"
+        case bold = "B"
+        case heavy = "EB"
+        
+        var uiFontWeight: UIFont.Weight {
+            switch self {
+            case .light:
+                return .light
+            case .regular:
+                return .regular
+            case .bold:
+                return .bold
+            case .heavy:
+                return .heavy
+            }
+        }
     }
     
-    static func nanumSquareRound(ofSize fontSize: CGFloat,
-                           weight: nanumSquareRoundWeight = .normal
+    static func nanumSquareRound(
+        ofSize fontSize: CGFloat,
+        weight: nanumSquareRoundWeight = .regular
     ) -> UIFont {
-        switch weight {
-        case .light:
-            return UIFont(name: "NanumSquareRoundOTFL", size: fontSize) ?? .systemFont(ofSize: fontSize, weight: .light)
-        case .normal:
-            return UIFont(name: "NanumSquareRoundOTF", size: fontSize) ?? .systemFont(ofSize: fontSize)
-        case .regular:
-            return UIFont(name: "NanumSquareRoundOTFR", size: fontSize) ?? .systemFont(ofSize: fontSize, weight: .regular)
-        case .bold:
-            return UIFont(name: "NanumSquareRoundOTFB", size: fontSize) ?? .systemFont(ofSize: fontSize, weight: .bold)
-        case .extraBold:
-            return UIFont(name: "NanumSquareRoundOTFEB", size: fontSize) ?? .systemFont(ofSize: fontSize, weight: .heavy)
-        }
+        return UIFont(name: "NanumSquareRoundOTF\(weight.rawValue)", size: fontSize)
+            ?? .systemFont(ofSize: fontSize, weight: weight.uiFontWeight)
     }
 }
