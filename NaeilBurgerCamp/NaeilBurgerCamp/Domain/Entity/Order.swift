@@ -17,11 +17,11 @@ typealias Orders = [Order]
 
 struct OrderDetail {
     let menuItemID: String
-    let amount: Int
+    let quantity: Int
 
     init(from dto: FSOrderDetail) {
         self.menuItemID = dto.menuItemID.stringValue
-        self.amount = Int(dto.amount.integerValue) ?? 0
+        self.quantity = Int(dto.quantity.integerValue) ?? 0
     }
 }
 

@@ -17,5 +17,5 @@ struct FSOrder: Decodable {
 
 struct FSOrderDetail: Decodable {
     let menuItemID: FSString
-    let amount: FSInteger
+    let quantity: FSInteger
 }
