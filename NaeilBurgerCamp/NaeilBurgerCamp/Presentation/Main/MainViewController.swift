@@ -82,8 +82,8 @@ private extension MainViewController {
                     if indexPath.section == 0 && indexPath.item == 0 {
                         collectionView.selectItem(
                             at: IndexPath(item: 0, section: 0),
-                            animated: true,
-                            scrollPosition: .centeredVertically
+                            animated: false,
+                            scrollPosition: .centeredHorizontally
                         )
                     }
                     return cell
