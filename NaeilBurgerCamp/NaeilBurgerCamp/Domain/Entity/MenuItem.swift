@@ -15,3 +15,5 @@ struct MenuItem {
         self.imageURL = dto.imageURL.stringValue
     }
 }
+
+typealias MenuItems = [MenuItem]
