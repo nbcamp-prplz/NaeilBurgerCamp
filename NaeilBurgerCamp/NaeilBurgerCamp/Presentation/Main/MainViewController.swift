@@ -24,7 +24,7 @@ final class MainViewController: UIViewController {
             MenuItemCell.self,
             MenuItemSectionFooter.self,
             CartSectionHeader.self,
-            CartItemCell.self,
+            CartItemCell.self
         )
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -63,7 +63,7 @@ private extension MainViewController {
 
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(logoImageView.snp.bottom).offset(16)
-            make.directionalHorizontalEdges.equalToSuperview().inset(12)
+            make.directionalHorizontalEdges.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20) // 하단 플로팅 버튼 공간 확보
         }
     }
@@ -93,7 +93,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
 
             // 카테고리 데이터 설정 (예시)
-            let categories = ["단품", "세트", "사이드", "음료"]
+            let categories = ["단품", "세트", "사이드", "음료", "음료"]
             let isSelected = indexPath.item == 0 // 첫 번째 아이템이 선택된 상태로 시작
 
             cell.configure(with: categories[indexPath.item])

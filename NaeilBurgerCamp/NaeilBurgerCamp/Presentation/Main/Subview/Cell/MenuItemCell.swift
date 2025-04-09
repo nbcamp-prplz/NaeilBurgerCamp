@@ -79,7 +79,7 @@ private extension MenuItemCell {
 
     func setConstraints() {
         containerView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(12)
+            make.edges.equalToSuperview()
         }
 
         itemImageView.snp.makeConstraints { make in

@@ -43,7 +43,7 @@ enum CollectionViewSection {
     var numberOfItemsInSection: Int {
         switch self {
         case .category:
-            return 4
+            return 5
         case .menuItem:
             return 8
         case .cartItem:
@@ -53,18 +53,18 @@ enum CollectionViewSection {
 
     static func createCategorySection() -> NSCollectionLayoutSection {
         // 아이템 크기 설정 - estimated로 설정하여 콘텐츠에 따라 너비가 조정되도록 함
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(80), heightDimension: .absolute(28))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
         // 그룹 크기 설정 - 아이템과 동일한 크기로 설정
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(80), heightDimension: .absolute(28)) // fractional로 0.5 변경
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(80), heightDimension: .absolute(28)) // fractional로 0.5 변경
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
         // 섹션 설정
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous // 가로 스크롤 설정
         section.interGroupSpacing = 10 // 그룹 간 간격
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 12, bottom: 10, trailing: 12) // 섹션 여백
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 24, bottom: 10, trailing: 24) // 섹션 여백
 
         return section
     }
@@ -76,12 +76,12 @@ enum CollectionViewSection {
             heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = .zero
+        item.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
 
         // 수평 그룹 설정 (한 행에 2개의 아이템)
         let horizontalGroupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(200)
+            heightDimension: .fractionalHeight(0.5)
         )
         let horizontalGroup = NSCollectionLayoutGroup.horizontal(
             layoutSize: horizontalGroupSize,
@@ -100,17 +100,17 @@ enum CollectionViewSection {
             count: 2
         )
 
+        verticalGroup.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12)
+
         // 섹션 설정
         let section = NSCollectionLayoutSection(group: verticalGroup)
         section.orthogonalScrollingBehavior = .groupPaging
-
-        // 좌우 여백 동일하게 설정
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 
         // 푸터 설정
         let footerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .absolute(60)
+
         )
         let footer = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: footerSize,
@@ -126,10 +126,10 @@ enum CollectionViewSection {
         // 아이템 크기 설정
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(140)
+            heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = .zero
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12)
 
         // 그룹 크기 설정 (수직 스크롤이므로 한 행에 하나의 아이템)
         let groupSize = NSCollectionLayoutSize(
