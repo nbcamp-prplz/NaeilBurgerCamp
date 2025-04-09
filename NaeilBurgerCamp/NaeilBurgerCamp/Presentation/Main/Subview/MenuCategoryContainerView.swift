@@ -2,7 +2,7 @@ import UIKit
 
 class MenuCategoryContainerView: UIView {
     let categoryView = CategoryView()
-    private let menuItemView = MenuItemView()
+    let menuItemView = MenuItemView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,8 +34,12 @@ private extension MenuCategoryContainerView {
 
     func setConstraints() {
         categoryView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+            
         }
+
+
     }
 
     func setActions() {
