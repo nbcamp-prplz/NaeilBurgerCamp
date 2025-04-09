@@ -1,17 +1,39 @@
 import Foundation
 
-protocol DummyRepositoryProtocol {
-    func fetchCategories() -> Categories
-    func fetchMenuItems(for categoryID: String) -> MenuItems
+protocol MenuRepositoryProtocol {
+    func fetchCategories() async -> Result<Categories, FSError>
+    func fetchMenuItems(for categoryID: String) async -> Result<MenuItems, FSError>
 }
 
-class DummyRepository: DummyRepositoryProtocol {
-    func fetchCategories() -> Categories {
-        return Category.dummy()
+class MenuRepository: MenuRepositoryProtocol {
+    private let service: FirestoreService
+
+    init(service: FirestoreService) {
+        self.service = service
     }
 
-    func fetchMenuItems(for categoryID: String) -> MenuItems {
-        return MenuItem.dummy()
+    func fetchCategories() async -> Result<Categories, FSError> {
+        let result = await service.fetchCategories()
+        switch result {
+        case .success(let response):
+            let fsCategories = response.documents.map{ $0.fields }
+            return .success(fsCategories.map { Category(from: $0) })
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+
+    func fetchMenuItems(for categoryID: String) async -> Result<MenuItems, FSError> {
+        let result = await service.fetchMenuItems()
+        switch result {
+        case .success(let response):
+            let menuItems = response.documents
+                .filter { $0.fields.categoryID.stringValue == categoryID }
+                .map { MenuItem(from: $0.fields) }
+            return .success(menuItems)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
 }
 
