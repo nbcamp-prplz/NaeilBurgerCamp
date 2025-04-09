@@ -25,10 +25,18 @@ final class FirestoreService {
     func fetchOrders() async -> Result<FSOrders, FSError> {
         await fetch(from: .orders, as: FSOrders.self)
     }
+
+    func createOrder(_ fsOrder: FSOrder) async -> Result<Void, FSError> {
+        let document = FSOrderDocumentForCreation(from: fsOrder)
+        return await create(from: document, to: .orders, as: fsOrder.id.stringValue)
+    }
 }
 
 private extension FirestoreService {
-    func fetch<T: Decodable>(from path: FSPath, as type: T.Type) async -> Result<T, FSError> {
+    func fetch<T: Decodable>(
+        from path: FSPath,
+        as type: T.Type
+    ) async -> Result<T, FSError> {
         let urlString = "\(baseURL)/\(path)"
         guard let url = URL(string: urlString) else {
             return .failure(.invalidURL(urlString: urlString))
@@ -55,6 +63,45 @@ private extension FirestoreService {
             } catch {
                 return .failure(.decodingFailed(message: error.localizedDescription))
             }
+        } catch {
+            return .failure(.unknownError(message: error.localizedDescription))
+        }
+    }
+
+    func create<T: Encodable>(
+        from document: T,
+        to path: FSPath,
+        as documentID: String
+    ) async -> Result<Void, FSError> {
+        let urlString = "\(baseURL)/\(path)?documentId=\(documentID)"
+        guard let url = URL(string: urlString) else {
+            return .failure(.invalidURL(urlString: urlString))
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        do {
+            let jsonData = try JSONEncoder().encode(document)
+            request.httpBody = jsonData
+        } catch {
+            return .failure(.encodingFailed(message: error.localizedDescription))
+        }
+
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+
+            if let httpResponse = response as? HTTPURLResponse,
+               !(200...299).contains(httpResponse.statusCode) {
+                return .failure(.httpError(statusCode: httpResponse.statusCode))
+            }
+
+            guard !data.isEmpty else {
+                return .failure(.noData)
+            }
+
+            return .success(())
         } catch {
             return .failure(.unknownError(message: error.localizedDescription))
         }

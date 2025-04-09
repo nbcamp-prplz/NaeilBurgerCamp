@@ -1,15 +1,15 @@
 import Foundation
 
-struct FSMenuItems: Decodable {
+struct FSMenuItems: Codable {
     let documents: [FSMenuItemDocument]
 }
 
-struct FSMenuItemDocument: Decodable {
+struct FSMenuItemDocument: Codable {
     let name: String
     let fields: FSMenuItem
 }
 
-struct FSMenuItem: Decodable {
+struct FSMenuItem: Codable {
     let id: FSString
     let categoryID: FSString
     let title: FSString

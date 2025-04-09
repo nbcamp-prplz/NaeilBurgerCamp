@@ -5,6 +5,12 @@ struct Order {
     let paymentDate: Date
     let orderDetails: OrderDetails
 
+    init(id: String, paymentDate: Date, orderDetails: OrderDetails) {
+        self.id = id
+        self.paymentDate = paymentDate
+        self.orderDetails = orderDetails
+    }
+
     init(from dto: FSOrder) {
         self.id = dto.id.stringValue
         self.paymentDate = Date(from: dto.paymentDate.stringValue) ?? Date(timeIntervalSince1970: 0)
@@ -18,6 +24,11 @@ typealias Orders = [Order]
 struct OrderDetail {
     let menuItemID: String
     let quantity: Int
+
+    init(menuItemID: String, quantity: Int) {
+        self.menuItemID = menuItemID
+        self.quantity = quantity
+    }
 
     init(from dto: FSOrderDetail) {
         self.menuItemID = dto.menuItemID.stringValue

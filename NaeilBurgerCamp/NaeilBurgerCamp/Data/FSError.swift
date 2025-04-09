@@ -4,6 +4,7 @@ enum FSError: LocalizedError {
     case invalidURL(urlString: String)
     case httpError(statusCode: Int)
     case noData
+    case encodingFailed(message: String)
     case decodingFailed(message: String)
     case unknownError(message: String)
 
@@ -15,6 +16,8 @@ enum FSError: LocalizedError {
             return "HTTPError: \(statusCode)"
         case .noData:
             return "NoData"
+        case .encodingFailed(let message):
+            return "EncodingFailed: \(message)"
         case .decodingFailed(let message):
             return "DecodingFailed: \(message)"
         case .unknownError(let message):
