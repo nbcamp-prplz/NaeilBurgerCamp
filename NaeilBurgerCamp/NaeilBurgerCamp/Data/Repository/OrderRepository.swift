@@ -12,7 +12,19 @@ class OrderRepository: OrderRepositoryProtocol {
     }
 
     func placeOrder(for cart: Cart) async -> Result<Void, FSError> {
-        //TODO: FirestoreServie.createOrder() 호출
-        return .success(())
+        let orderDetail = cart.details
+            .map {
+                OrderDetail(
+                    menuItemID: $0.menuItem.id,
+                    quantity: $0.quantity
+                )
+            }
+        let order = Order(
+            id: UUID().uuidString,
+            paymentDate: Date(),
+            orderDetails: orderDetail
+        )
+
+        return await service.createOrder(FSOrder(from: order))
     }
 }
