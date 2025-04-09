@@ -26,13 +26,17 @@ final class FirestoreService {
         await fetch(from: .orders, as: FSOrders.self)
     }
 
-    func createOrder(_ order: FSOrderDocumentForCreation) async -> Result<Void, FSError> {
-        await create(from: order, to: .orders)
+    func createOrder(_ fsOrder: FSOrder) async -> Result<Void, FSError> {
+        let document = FSOrderDocumentForCreation(from: fsOrder)
+        return await create(from: document, to: .orders, as: fsOrder.id.stringValue)
     }
 }
 
 private extension FirestoreService {
-    func fetch<T: Decodable>(from path: FSPath, as type: T.Type) async -> Result<T, FSError> {
+    func fetch<T: Decodable>(
+        from path: FSPath,
+        as type: T.Type
+    ) async -> Result<T, FSError> {
         let urlString = "\(baseURL)/\(path)"
         guard let url = URL(string: urlString) else {
             return .failure(.invalidURL(urlString: urlString))
@@ -64,8 +68,12 @@ private extension FirestoreService {
         }
     }
 
-    func create<T: Encodable>(from document: T, to path: FSPath) async -> Result<Void, FSError> {
-        let urlString = "\(baseURL)/\(path)"
+    func create<T: Encodable>(
+        from document: T,
+        to path: FSPath,
+        as documentID: String
+    ) async -> Result<Void, FSError> {
+        let urlString = "\(baseURL)/\(path)?documentId=\(documentID)"
         guard let url = URL(string: urlString) else {
             return .failure(.invalidURL(urlString: urlString))
         }
