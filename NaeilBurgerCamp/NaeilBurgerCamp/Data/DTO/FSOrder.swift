@@ -9,6 +9,10 @@ struct FSOrderDocument: Codable {
     let fields: FSOrder
 }
 
+struct FSOrderDocumentForCreation: Codable {
+    let fields: FSOrder
+}
+
 struct FSOrder: Codable {
     let id: FSString
     let paymentDate: FSString
