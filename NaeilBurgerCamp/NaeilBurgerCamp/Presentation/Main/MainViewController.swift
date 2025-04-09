@@ -16,9 +16,7 @@ final class MainViewController: UIViewController {
     }()
 
     private lazy var collectionView: UICollectionView = {
-        let layout = createCompositionalLayout()
-
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView = UICollectionView.withCompositionalLayout()
         collectionView.backgroundColor = .bcBackground1
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(
@@ -37,15 +35,6 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-    }
-
-    private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            if let section = CollectionViewSection(sectionIndex) {
-                return section.layoutSection
-            }
-            return nil
-        }
     }
 }
 

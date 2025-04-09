@@ -1,6 +1,16 @@
 import UIKit
 
 extension UICollectionView {
+    static func withCompositionalLayout() -> UICollectionView {
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            if let section = CollectionViewSection(sectionIndex) {
+                return section.layoutSection
+            }
+            return nil
+        }
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+    }
+
     func register(_ views: (AnyObject & BCReusableView).Type...) {
         views.forEach {
             if $0 is UICollectionViewCell.Type {
