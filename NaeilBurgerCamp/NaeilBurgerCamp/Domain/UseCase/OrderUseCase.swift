@@ -7,7 +7,7 @@ protocol OrderUseCaseProtocol {
 
 class OrderUseCase: OrderUseCaseProtocol {
     private let repository: OrderRepositoryProtocol
-    let isOrderSuccess = PublishSubject<Bool>()
+    let orderSuccess = PublishSubject<Void>()
     let errerMessage = PublishSubject<String>()
 
     init(repository: OrderRepositoryProtocol = OrderRepository()) {
@@ -17,8 +17,8 @@ class OrderUseCase: OrderUseCaseProtocol {
     func placeOrder(for cart: Cart) async {
         let result = await repository.placeOrder(for: cart)
         switch result {
-        case .success(let isOrderSuccess):
-            self.isOrderSuccess.onNext(isOrderSuccess)
+        case .success:
+            self.orderSuccess.onNext(())
         case .failure(let error):
             errerMessage.onNext(error.errorDescription ?? error.localizedDescription)
         }
