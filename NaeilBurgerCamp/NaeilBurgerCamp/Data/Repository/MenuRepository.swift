@@ -8,7 +8,7 @@ protocol MenuRepositoryProtocol {
 class MenuRepository: MenuRepositoryProtocol {
     private let service: FirestoreService
 
-    init(service: FirestoreService) {
+    init(service: FirestoreService = FirestoreService()) {
         self.service = service
     }
 
