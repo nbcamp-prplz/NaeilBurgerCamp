@@ -14,7 +14,7 @@ final class MainViewController: UIViewController {
     private let viewModel = MainViewModel()
     private var dataSource: DataSource?
 
-    private let selectCategory = PublishRelay<String>()
+    private let selectCategory = BehaviorRelay<String>(value: "")
     private let addMenuItem = PublishRelay<MenuItem>()
     private let removeMenuItem = PublishRelay<MenuItem>()
     private let resetCart = PublishRelay<Void>()
@@ -77,6 +77,13 @@ private extension MainViewController {
                         for: indexPath
                     ) as? CategoryCell else { return UICollectionViewCell() }
                     cell.configure(with: category.title)
+                    if indexPath.section == 0 && indexPath.item == 0 {
+                        collectionView.selectItem(
+                            at: IndexPath(item: 0, section: 0),
+                            animated: true,
+                            scrollPosition: .centeredVertically
+                        )
+                    }
                     return cell
                 case .menuItem(let menuItem):
                     guard let cell = collectionView.dequeueReusableCell(
@@ -147,27 +154,32 @@ private extension MainViewController {
         Observable.combineLatest(output.categories, output.menuItems, output.cart)
             .observe(on: MainScheduler.instance)
             .bind { [weak self] categories, menuItems, cart in
-            guard let self else { return }
+                guard let self else { return }
 
-            var snapshot = SnapShot()
+                if self.selectCategory.value.isEmpty {
+                    selectCategory.accept(categories.first?.id ?? "")
+                }
 
-            let categoriesSection = Section.categories
-            let category = categories.map { Item.category($0) }
+                var snapshot = SnapShot()
 
-            let menuItemsSection = Section.menuItems
-            let menuItem = menuItems.map { Item.menuItem($0) }
+                let categoriesSection = Section.categories
+                let category = categories.map { Item.category($0) }
 
-            let cartSection = Section.cartItems
-            let cartItem = cart.details.map { Item.cart($0) }
+                let menuItemsSection = Section.menuItems
+                let menuItem = menuItems.map { Item.menuItem($0) }
 
-            snapshot.deleteAllItems()
-            snapshot.appendSections([categoriesSection, menuItemsSection, cartSection])
-            snapshot.appendItems(category, toSection: categoriesSection)
-            snapshot.appendItems(menuItem, toSection: menuItemsSection)
-            snapshot.appendItems(cartItem, toSection: cartSection)
-            dataSource?.apply(snapshot, animatingDifferences: true)
-        }
-        .disposed(by: disposeBag)
+                let cartSection = Section.cartItems
+                let cartItem = cart.details.map { Item.cart($0) }
+
+                snapshot.deleteAllItems()
+                snapshot.appendSections([categoriesSection, menuItemsSection, cartSection])
+                snapshot.appendItems(category, toSection: categoriesSection)
+                snapshot.appendItems(menuItem, toSection: menuItemsSection)
+                snapshot.appendItems(cartItem, toSection: cartSection)
+
+                dataSource?.apply(snapshot, animatingDifferences: true)
+            }
+            .disposed(by: disposeBag)
 
         output.cancelButtonIsEnabled
             .observe(on: MainScheduler.instance)
