@@ -17,6 +17,13 @@ final class PlaceOrderView: UIView {
         return label
     }()
 
+    private lazy var buttonsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 16
+        return stackView
+    }()
+
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .bcBackground4
@@ -51,8 +58,9 @@ final class PlaceOrderView: UIView {
     }
 
     func updateCancelButtonIsEnabled(_ isEnabled: Bool) {
-        cancelButton.isEnabled = isEnabled
-        cancelButton.layer.opacity = isEnabled ? 1.0 : 0.5
+        UIView.transition(with: cancelButton, duration: 0.2, options: .transitionCrossDissolve) {
+            self.cancelButton.isHidden = !isEnabled
+        }
     }
 
     func updateOrderButtonIsEnabled(_ isEnabled: Bool) {
@@ -86,7 +94,8 @@ private extension PlaceOrderView {
     }
 
     func setHierarchy() {
-        addSubviews(franchiseLabel, cancelButton, orderButton)
+        buttonsStackView.addArrangedSubviews(cancelButton, orderButton)
+        addSubviews(franchiseLabel, buttonsStackView)
     }
 
     func setConstraints() {
@@ -95,18 +104,18 @@ private extension PlaceOrderView {
             make.leading.equalToSuperview().inset(24)
         }
 
-        cancelButton.snp.makeConstraints { make in
+        buttonsStackView.snp.makeConstraints { make in
             make.top.equalTo(franchiseLabel.snp.bottom).offset(14)
-            make.leading.equalToSuperview().inset(24)
+            make.directionalHorizontalEdges.equalToSuperview().inset(24)
             make.bottom.equalTo(safeAreaLayoutGuide)
+        }
+
+        cancelButton.snp.makeConstraints { make in
             make.width.equalTo(90)
             make.height.equalTo(42)
         }
 
         orderButton.snp.makeConstraints { make in
-            make.top.equalTo(franchiseLabel.snp.bottom).offset(14)
-            make.leading.equalTo(cancelButton.snp.trailing).offset(16)
-            make.trailing.equalToSuperview().inset(24)
             make.height.equalTo(42)
         }
     }
