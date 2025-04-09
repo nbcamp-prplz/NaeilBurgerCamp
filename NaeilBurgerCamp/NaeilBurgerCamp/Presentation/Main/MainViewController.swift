@@ -97,6 +97,7 @@ private extension MainViewController {
                         withReuseIdentifier: CartItemCell.identifier,
                         for: indexPath
                     ) as? CartItemCell else { return UICollectionViewCell() }
+                    cell.configure(with: detail)
                     return cell
                 }
             })
