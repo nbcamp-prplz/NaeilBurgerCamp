@@ -38,132 +38,12 @@ final class MainViewController: UIViewController {
     }
 
     private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            guard let self = self else { return nil }
-
-            switch sectionIndex {
-            case 0:
-                return self.createCategorySection()
-            case 1:
-                return self.createMenuItemSection()
-            case 2:
-                return self.createCartSection()
-            default:
-                return nil
+        return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            if let section = CollectionViewSection(sectionIndex) {
+                return section.layoutSection
             }
-
             return nil
         }
-    }
-
-    private func createCategorySection() -> NSCollectionLayoutSection {
-        // 아이템 크기 설정 - estimated로 설정하여 콘텐츠에 따라 너비가 조정되도록 함
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(80), heightDimension: .absolute(28))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-        // 그룹 크기 설정 - 아이템과 동일한 크기로 설정
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(80), heightDimension: .absolute(28)) // fractional로 0.5 변경
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-
-        // 섹션 설정
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous // 가로 스크롤 설정
-        section.interGroupSpacing = 10 // 그룹 간 간격
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 12, bottom: 10, trailing: 12) // 섹션 여백
-
-        return section
-    }
-
-    private func createMenuItemSection() -> NSCollectionLayoutSection {
-        // 아이템 크기 설정
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.5),
-            heightDimension: .fractionalHeight(1.0)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = .zero
-
-        // 수평 그룹 설정 (한 행에 2개의 아이템)
-        let horizontalGroupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(200)
-        )
-        let horizontalGroup = NSCollectionLayoutGroup.horizontal(
-            layoutSize: horizontalGroupSize,
-            repeatingSubitem: item,
-            count: 2
-        )
-
-        // 수직 그룹 설정 (2행으로 구성하여 총 4개의 아이템)
-        let verticalGroupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(400)
-        )
-        let verticalGroup = NSCollectionLayoutGroup.vertical(
-            layoutSize: verticalGroupSize,
-            repeatingSubitem: horizontalGroup,
-            count: 2
-        )
-
-        // 섹션 설정
-        let section = NSCollectionLayoutSection(group: verticalGroup)
-        section.orthogonalScrollingBehavior = .groupPaging
-
-        // 좌우 여백 동일하게 설정
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-
-        // 푸터 설정
-        let footerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(60)
-        )
-        let footer = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: footerSize,
-            elementKind: UICollectionView.elementKindSectionFooter,
-            alignment: .bottom
-        )
-        section.boundarySupplementaryItems = [footer]
-
-        return section
-    }
-
-    private func createCartSection() -> NSCollectionLayoutSection {
-        // 아이템 크기 설정
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(140)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = .zero
-
-        // 그룹 크기 설정 (수직 스크롤이므로 한 행에 하나의 아이템)
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(140)
-        )
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: groupSize,
-            subitems: [item]
-        )
-
-        // 섹션 설정
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 10 // 아이템 간 간격
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12) // 좌우 여백 설정
-
-        // 헤더 설정
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(40)
-        )
-        let header = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top
-        )
-        section.boundarySupplementaryItems = [header]
-
-        return section
     }
 }
 
@@ -196,28 +76,27 @@ private extension MainViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20) // 하단 플로팅 버튼 공간 확보
         }
     }
-
 }
 
 extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3 // 첫 번째 섹션만 표시
+        return 3
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 4
-        case 1:
-            return 8 // test할땐 두개의 페이지까지 임시 설정
-        case 2:
-            return 3
-        default:
-            return 0
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        if let section = CollectionViewSection(section) {
+            return section.numberOfItemsInSection
         }
+        return 0
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
@@ -256,7 +135,11 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionFooter && indexPath.section == 1 {
             let footerView = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
@@ -284,7 +167,10 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         return UICollectionReusableView()
     }
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
         // 카테고리 선택 시 처리
         for i in 0..<collectionView.numberOfItems(inSection: 0) {
             let cell = collectionView.cellForItem(at: IndexPath(item: i, section: 0)) as? CategoryCell
