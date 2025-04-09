@@ -26,7 +26,6 @@ final class PlaceOrderView: UIView {
     private lazy var orderButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .bcPrimary
-        button.setTitle("(2) 25,000원 결제하기", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .nanumSquareRound(ofSize: 15, weight: .heavy)
         button.layer.cornerRadius = 20
@@ -51,6 +50,13 @@ final class PlaceOrderView: UIView {
 
     func updateOrderButtonIsEnabled(_ isEnabled: Bool) {
         orderButton.isEnabled = isEnabled
+    }
+
+    func updateOrderButtonTitle(with cart: Cart) {
+        let title = cart.totalQuantity == 0
+            ? "항목을 추가해주세요!"
+            : "(\(cart.totalQuantity)) \(cart.totalPrice)원 결제하기"
+        orderButton.setTitle(title, for: .normal)
     }
 }
 

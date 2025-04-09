@@ -161,6 +161,10 @@ private extension MainViewController {
 
         Observable.combineLatest(output.categories, output.menuItems, output.cart)
             .observe(on: MainScheduler.instance)
+            .do { [weak self] _, _, cart in
+                guard let self else { return }
+                self.placeOrderView.updateOrderButtonTitle(with: cart)
+            }
             .bind { [weak self] categories, menuItems, cart in
                 guard let self else { return }
 
