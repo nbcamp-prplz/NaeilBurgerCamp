@@ -24,8 +24,8 @@ final class MainViewController: UIViewController {
         collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.identifier)
         collectionView.register(MenuItemCell.self, forCellWithReuseIdentifier: MenuItemCell.identifier)
         collectionView.register(CartItemCell.self, forCellWithReuseIdentifier: CartItemCell.identifier)
-        collectionView.register(MenuItemFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: MenuItemFooterView.identifier)
-        collectionView.register(CartSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CartSectionHeaderView.identifier)
+        collectionView.register(MenuItemFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: MenuItemFooter.identifier)
+        collectionView.register(CartSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CartSectionHeader.identifier)
         collectionView.dataSource = self
         collectionView.delegate = self
 
@@ -260,9 +260,9 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         if kind == UICollectionView.elementKindSectionFooter && indexPath.section == 1 {
             let footerView = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
-                withReuseIdentifier: MenuItemFooterView.identifier,
+                withReuseIdentifier: MenuItemFooter.identifier,
                 for: indexPath
-            ) as! MenuItemFooterView
+            ) as! MenuItemFooter
 
             footerView.delegate = self
 
@@ -274,9 +274,9 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         } else if kind == UICollectionView.elementKindSectionHeader && indexPath.section == 2 {
             let headerView = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
-                withReuseIdentifier: CartSectionHeaderView.identifier,
+                withReuseIdentifier: CartSectionHeader.identifier,
                 for: indexPath
-            ) as! CartSectionHeaderView
+            ) as! CartSectionHeader
 
             return headerView
         }
@@ -318,7 +318,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
                 currentPage = newPage
 
                 // 푸터 버튼 상태 업데이트
-                if let footerView = collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionFooter).first as? MenuItemFooterView {
+                if let footerView = collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionFooter).first as? MenuItemFooter {
                     updateFooterButtonState(footerView: footerView)
                 }
             }
@@ -347,13 +347,13 @@ extension MainViewController: MenuItemFooterViewDelegate {
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
 
         // 푸터뷰 버튼 상태 업데이트를 위해 푸터뷰 참조 가져오기
-        if let footerView = collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionFooter).first as? MenuItemFooterView {
+        if let footerView = collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionFooter).first as? MenuItemFooter {
             updateFooterButtonState(footerView: footerView)
         }
     }
 
     // 푸터뷰의 버튼 상태 업데이트 (첫 페이지나 마지막 페이지에서는 버튼 비활성화)
-    private func updateFooterButtonState(footerView: MenuItemFooterView) {
+    private func updateFooterButtonState(footerView: MenuItemFooter) {
         let maxPage = (totalMenuItems + itemsPerPage - 1) / itemsPerPage - 1
 
         // 페이지에 따른 버튼 활성화/비활성화

@@ -1,8 +1,8 @@
 import UIKit
 import SnapKit
 
-class CartSectionHeaderView: UICollectionReusableView {
-    static let identifier = "CartSectionHeaderView"
+class CartSectionHeader: UICollectionReusableView {
+    static let identifier = "CartSectionHeader"
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -22,7 +22,7 @@ class CartSectionHeaderView: UICollectionReusableView {
     }
 }
 
-private extension CartSectionHeaderView {
+private extension CartSectionHeader {
     func configure() {
         setHierarchy()
         setConstraints()
