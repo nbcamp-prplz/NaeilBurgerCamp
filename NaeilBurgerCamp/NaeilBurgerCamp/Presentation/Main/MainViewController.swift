@@ -234,7 +234,9 @@ private extension MainViewController {
         placeOrderView.cancelButtonTapped
             .bind { [weak self] in
                 guard let self else { return }
-                self.resetCart.accept(())
+                self.showResetCartAlert {
+                    self.resetCart.accept(())
+                }
             }
             .disposed(by: disposeBag)
 
