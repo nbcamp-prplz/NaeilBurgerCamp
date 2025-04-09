@@ -3,18 +3,6 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-enum Section: Hashable {
-    case categories
-    case menuItems
-    case cart
-}
-
-enum Item: Hashable {
-    case category(Category)
-    case menuItem(MenuItem)
-    case cart(Cart.Detail)
-}
-
 typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
 typealias SnapShot = NSDiffableDataSourceSnapshot<Section, Item>
 
@@ -119,7 +107,7 @@ private extension MainViewController {
                     withReuseIdentifier: MenuItemSectionFooter.identifier,
                     for: indexPath
                 )
-            case .cart:
+            case .cartItems:
                 return collectionView.dequeueReusableSupplementaryView(
                     ofKind: kind,
                     withReuseIdentifier: CartSectionHeader.identifier,
@@ -169,7 +157,7 @@ private extension MainViewController {
             let menuItemsSection = Section.menuItems
             let menuItem = menuItems.map { Item.menuItem($0) }
 
-            let cartSection = Section.cart
+            let cartSection = Section.cartItems
             let cartItem = cart.details.map { Item.cart($0) }
 
             snapshot.deleteAllItems()
