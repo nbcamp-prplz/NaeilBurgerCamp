@@ -2,27 +2,41 @@ import Foundation
 import RxSwift
 
 protocol MenuUseCaseProtocol {
-    var categories: BehaviorSubject<Categories> { get }
-    var menuItems: BehaviorSubject<MenuItems> { get }
+    var categories: PublishSubject<Categories> { get }
+    var menuItems: PublishSubject<MenuItems> { get }
+    var errorMessage: PublishSubject<String> { get }
 
-    func fetchCategories()
-    func fetchMenuItems(for categoryID: String)
+    func fetchCategories() async
+    func fetchMenuItems(for categoryID: String) async
 }
 
 final class MenuUseCase: MenuUseCaseProtocol {
-    private let repository: DummyRepositoryProtocol
-    let categories = BehaviorSubject<Categories>(value: [])
-    let menuItems = BehaviorSubject<MenuItems>(value: [])
+    private let repository: MenuRepositoryProtocol
+    let categories = PublishSubject<Categories>()
+    let menuItems = PublishSubject<MenuItems>()
+    let errorMessage = PublishSubject<String>()
 
-    init(repository: DummyRepositoryProtocol) {
+    init(repository: MenuRepositoryProtocol) {
         self.repository = repository
     }
 
-    func fetchCategories() {
-        categories.onNext(repository.fetchCategories())
+    func fetchCategories() async {
+        let result = await repository.fetchCategories()
+        switch result {
+        case .success(let categories):
+            self.categories.onNext(categories)
+        case .failure(let error):
+            self.errorMessage.onNext(error.errorDescription ?? error.localizedDescription)
+        }
     }
     
-    func fetchMenuItems(for categoryID: String) {
-        menuItems.onNext(repository.fetchMenuItems(for: categoryID))
+    func fetchMenuItems(for categoryID: String) async {
+        let result = await repository.fetchMenuItems(for: categoryID)
+        switch result {
+        case .success(let menuItems):
+            self.menuItems.onNext(menuItems)
+        case .failure(let error):
+            self.errorMessage.onNext(error.errorDescription ?? error.localizedDescription)
+        }
     }
 }
