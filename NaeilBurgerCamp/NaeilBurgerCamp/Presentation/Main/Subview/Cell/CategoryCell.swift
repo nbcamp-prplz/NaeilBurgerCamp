@@ -1,8 +1,6 @@
 import UIKit
 
 final class CategoryCell: UICollectionViewCell {
-    static let identifier = "CategoryCell"
-
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "카테고리"
@@ -49,8 +47,6 @@ private extension CategoryCell {
         setLayout()
         setHierarchy()
         setConstraints()
-        setActions()
-        setBinding()
     }
 
     func setLayout() {
@@ -68,13 +64,14 @@ private extension CategoryCell {
             make.center.equalToSuperview()
         }
     }
+}
 
-    func setActions() {
-
+extension CategoryCell: BCReusableView {
+    static var identifier: String {
+        "CategoryCell"
     }
 
-    func setBinding() {
-
+    static var reusableViewType: ReusableViewType {
+        .cell
     }
-
 }

@@ -1,8 +1,6 @@
 import UIKit
 
 final class CartItemCell: UICollectionViewCell {
-    static let identifier = "CartItemCell"
-
     private let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .bcBackground3
@@ -101,7 +99,6 @@ private extension CartItemCell {
         setLayout()
         setHierarchy()
         setConstraints()
-
         setDummyValues()
     }
 
@@ -175,5 +172,15 @@ private extension CartItemCell {
         itemPriceLabel.text = "12,500원"
         itemQuantityLabel.text = "1"
         totalPriceLabel.text = "12,500원"
+    }
+}
+
+extension CartItemCell: BCReusableView {
+    static var identifier: String {
+        "CartItemCell"
+    }
+
+    static var reusableViewType: ReusableViewType {
+        .cell
     }
 }

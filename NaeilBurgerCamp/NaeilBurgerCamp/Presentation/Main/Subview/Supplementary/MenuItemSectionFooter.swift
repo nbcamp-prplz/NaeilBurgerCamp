@@ -6,8 +6,6 @@ protocol MenuItemFooterViewDelegate: AnyObject {
 }
 
 final class MenuItemSectionFooter: UICollectionReusableView {
-    static let identifier = "MenuItemSectionFooter"
-
     weak var delegate: MenuItemFooterViewDelegate?
 
     private let divider: UIView = {
@@ -99,5 +97,15 @@ private extension MenuItemSectionFooter {
 
     @objc func nextButtonTapped() {
         delegate?.didTapNextButton()
+    }
+}
+
+extension MenuItemSectionFooter: BCReusableView {
+    static var identifier: String {
+        "MenuItemSectionFooter"
+    }
+
+    static var reusableViewType: ReusableViewType {
+        .footer
     }
 }

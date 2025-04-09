@@ -21,11 +21,13 @@ final class MainViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .bcBackground1
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.identifier)
-        collectionView.register(MenuItemCell.self, forCellWithReuseIdentifier: MenuItemCell.identifier)
-        collectionView.register(CartItemCell.self, forCellWithReuseIdentifier: CartItemCell.identifier)
-        collectionView.register(MenuItemSectionFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: MenuItemSectionFooter.identifier)
-        collectionView.register(CartSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CartSectionHeader.identifier)
+        collectionView.register(
+            CategoryCell.self,
+            MenuItemCell.self,
+            MenuItemSectionFooter.self,
+            CartSectionHeader.self,
+            CartItemCell.self,
+        )
         collectionView.dataSource = self
         collectionView.delegate = self
 

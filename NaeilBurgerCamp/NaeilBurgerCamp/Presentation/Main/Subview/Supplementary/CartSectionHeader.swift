@@ -2,8 +2,6 @@ import UIKit
 import SnapKit
 
 final class CartSectionHeader: UICollectionReusableView {
-    static let identifier = "CartSectionHeader"
-
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "주문 내역"
@@ -37,5 +35,15 @@ private extension CartSectionHeader {
             make.leading.equalToSuperview().inset(12)
             make.centerY.equalToSuperview()
         }
+    }
+}
+
+extension CartSectionHeader: BCReusableView {
+    static var identifier: String {
+        "CartSectionHeader"
+    }
+
+    static var reusableViewType: ReusableViewType {
+        .header
     }
 }

@@ -1,8 +1,6 @@
 import UIKit
 
 final class MenuItemCell: UICollectionViewCell {
-    static let identifier = "MenuItemCell"
-
     private let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .bcBackground3
@@ -68,8 +66,6 @@ private extension MenuItemCell {
         setLayout()
         setHierarchy()
         setConstraints()
-        setActions()
-        setBinding()
     }
 
     func setLayout() {
@@ -102,12 +98,14 @@ private extension MenuItemCell {
             make.centerX.equalToSuperview()
         }
     }
+}
 
-    func setActions() {
-
+extension MenuItemCell: BCReusableView {
+    static var identifier: String {
+        "MenuItemCell"
     }
 
-    func setBinding() {
-
+    static var reusableViewType: ReusableViewType {
+        .cell
     }
 }
