@@ -1,7 +1,13 @@
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 final class PlaceOrderView: UIView {
+    let cancelButtonTapped = PublishRelay<Void>()
+    let orderButtonTapped = PublishRelay<Void>()
+    private let disposeBag = DisposeBag()
+
     private lazy var franchiseLabel: UILabel = {
         let label = UILabel()
         label.text = "내버캠 iOS 마스터 3호점"
@@ -65,6 +71,7 @@ private extension PlaceOrderView {
         setLayout()
         setHierarchy()
         setConstraints()
+        setBinding()
     }
 
     func setLayout() {
@@ -100,5 +107,15 @@ private extension PlaceOrderView {
             make.height.equalTo(cancelButton.snp.height)
             make.centerY.equalTo(cancelButton.snp.centerY)
         }
+    }
+
+    func setBinding() {
+        cancelButton.rx.tap
+            .bind(to: cancelButtonTapped)
+            .disposed(by: disposeBag)
+
+        orderButton.rx.tap
+            .bind(to: orderButtonTapped)
+            .disposed(by: disposeBag)
     }
 }

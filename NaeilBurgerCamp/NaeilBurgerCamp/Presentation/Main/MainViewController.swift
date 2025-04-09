@@ -230,6 +230,20 @@ private extension MainViewController {
                 }
             }
             .disposed(by: disposeBag)
+
+        placeOrderView.cancelButtonTapped
+            .bind { [weak self] in
+                guard let self else { return }
+                self.resetCart.accept(())
+            }
+            .disposed(by: disposeBag)
+
+        placeOrderView.orderButtonTapped
+            .bind { [weak self] in
+                guard let self else { return }
+                self.placeOrder.accept(())
+            }
+            .disposed(by: disposeBag)
     }
 }
 

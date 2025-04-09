@@ -11,6 +11,7 @@ protocol MainViewModelProtocol: AnyObject {
 
 final class MainViewModel: MainViewModelProtocol {
     private let menuUseCase: MenuUseCaseProtocol = MenuUseCase()
+    private let orderUseCase: OrderUseCaseProtocol = OrderUseCase()
 
     private var cart = BehaviorRelay<Cart>(value: Cart())
     private let disposeBag = DisposeBag()
@@ -77,7 +78,7 @@ final class MainViewModel: MainViewModelProtocol {
             .bind { [weak self] in
                 guard let self else { return }
                 Task {
-                    // TODO: OrderUseCase.placeOrder(with: self.cart.value)
+                    await self.orderUseCase.placeOrder(for: self.cart.value)
                     self.cart.accept(Cart())
                 }
             }
