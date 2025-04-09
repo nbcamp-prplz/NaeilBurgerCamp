@@ -1,5 +1,11 @@
 import Foundation
 
+fileprivate enum FSPath: String {
+    case categories
+    case menuItems
+    case orders
+}
+
 final class FirestoreService {
     private let projectID = "naeilburgercamp"
     private let databaseID = "(default)"
@@ -8,54 +14,49 @@ final class FirestoreService {
         "https://firestore.googleapis.com/v1/projects/\(projectID)/databases/\(databaseID)/documents"
     }
 
-    func fetchCategories() async -> FSCategories? {
-        let urlString = "\(baseURL)/categories"
-        guard let url = URL(string: urlString) else { return nil }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-
-        do {
-            let (data, _) = try await URLSession.shared.data(for: request)
-            let result = try JSONDecoder().decode(FSCategories.self, from: data)
-            return result
-        } catch {
-            print("Firestore Error: \(error)")
-            return nil
-        }
+    func fetchCategories() async -> Result<FSCategories, FSError> {
+        await fetch(from: .categories, as: FSCategories.self)
     }
 
-    func fetchMenuItems() async -> FSMenuItems? {
-        let urlString = "\(baseURL)/menuItems"
-        guard let url = URL(string: urlString) else { return nil }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-
-        do {
-            let (data, _) = try await URLSession.shared.data(for: request)
-            let result = try JSONDecoder().decode(FSMenuItems.self, from: data)
-            return result
-        } catch {
-            print("Firestore Error: \(error)")
-            return nil
-        }
+    func fetchMenuItems() async -> Result<FSMenuItems, FSError> {
+        await fetch(from: .menuItems, as: FSMenuItems.self)
     }
 
-    func fetchOrders() async -> FSOrders? {
-        let urlString = "\(baseURL)/orders"
-        guard let url = URL(string: urlString) else { return nil }
+    func fetchOrders() async -> Result<FSOrders, FSError> {
+        await fetch(from: .orders, as: FSOrders.self)
+    }
+}
+
+private extension FirestoreService {
+    func fetch<T: Decodable>(from path: FSPath, as type: T.Type) async -> Result<T, FSError> {
+        let urlString = "\(baseURL)/\(path)"
+        guard let url = URL(string: urlString) else {
+            return .failure(.invalidURL(urlString: urlString))
+        }
 
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
 
         do {
-            let (data, _) = try await URLSession.shared.data(for: request)
-            let result = try JSONDecoder().decode(FSOrders.self, from: data)
-            return result
+            let (data, response) = try await URLSession.shared.data(for: request)
+
+            if let httpResponse = response as? HTTPURLResponse,
+               !(200...299).contains(httpResponse.statusCode) {
+                return .failure(.httpError(statusCode: httpResponse.statusCode))
+            }
+
+            guard !data.isEmpty else {
+                return .failure(.noData)
+            }
+
+            do {
+                let result = try JSONDecoder().decode(T.self, from: data)
+                return .success(result)
+            } catch {
+                return .failure(.decodingFailed(message: error.localizedDescription))
+            }
         } catch {
-            print("Firestore Error: \(error)")
-            return nil
+            return .failure(.unknownError(message: error.localizedDescription))
         }
     }
 }
