@@ -5,8 +5,8 @@ protocol MenuItemFooterViewDelegate: AnyObject {
     func didTapNextButton()
 }
 
-final class MenuItemFooter: UICollectionReusableView {
-    static let identifier = "MenuItemFooter"
+final class MenuItemSectionFooter: UICollectionReusableView {
+    static let identifier = "MenuItemSectionFooter"
 
     weak var delegate: MenuItemFooterViewDelegate?
 
@@ -53,7 +53,7 @@ final class MenuItemFooter: UICollectionReusableView {
     }
 }
 
-private extension MenuItemFooter {
+private extension MenuItemSectionFooter {
     func configure() {
         setLayout()
         setHierarchy()
