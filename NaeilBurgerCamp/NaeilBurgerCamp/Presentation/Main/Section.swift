@@ -1,18 +1,18 @@
 import UIKit
 
-enum CollectionViewSection {
-    case category
-    case menuItem
-    case cartItem
+enum Section: Hashable {
+    case categories
+    case menuItems
+    case cartItems
 
     init?(_ sectionNumber: Int) {
         switch sectionNumber {
         case 0:
-            self = .category
+            self = .categories
         case 1:
-            self = .menuItem
+            self = .menuItems
         case 2:
-            self = .cartItem
+            self = .cartItems
         default:
             return nil
         }
@@ -20,33 +20,33 @@ enum CollectionViewSection {
 
     var sectionNumber: Int {
         switch self {
-        case .category:
+        case .categories:
             return 0
-        case .menuItem:
+        case .menuItems:
             return 1
-        case .cartItem:
+        case .cartItems:
             return 2
         }
     }
 
     var layoutSection: NSCollectionLayoutSection {
         switch self {
-        case .category:
+        case .categories:
             return Self.createCategorySection()
-        case .menuItem:
+        case .menuItems:
             return Self.createMenuItemSection()
-        case .cartItem:
+        case .cartItems:
             return Self.createCartItemSection()
         }
     }
 
     var numberOfItemsInSection: Int {
         switch self {
-        case .category:
+        case .categories:
             return 5
-        case .menuItem:
+        case .menuItems:
             return 8
-        case .cartItem:
+        case .cartItems:
             return 3
         }
     }
@@ -160,4 +160,10 @@ enum CollectionViewSection {
 
         return section
     }
+}
+
+enum Item: Hashable {
+    case category(Category)
+    case menuItem(MenuItem)
+    case cart(Cart.Detail)
 }

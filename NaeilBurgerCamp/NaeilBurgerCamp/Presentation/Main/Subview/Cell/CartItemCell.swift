@@ -92,6 +92,14 @@ final class CartItemCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented.")
     }
+
+    func configure(with detail: Cart.Detail) {
+        itemImageView.image = .dummyBurger
+        itemTitleLabel.text = detail.menuItem.title
+        itemPriceLabel.text = "\(detail.menuItem.price)원"
+        itemQuantityLabel.text = "\(detail.quantity)"
+        totalPriceLabel.text = "\(detail.totalPrice)원"
+    }
 }
 
 private extension CartItemCell {
@@ -99,7 +107,6 @@ private extension CartItemCell {
         setLayout()
         setHierarchy()
         setConstraints()
-        setDummyValues()
     }
 
     func setLayout() {
@@ -164,14 +171,6 @@ private extension CartItemCell {
             make.trailing.equalTo(itemPriceLabel.snp.trailing)
             make.centerY.equalTo(minusButton.snp.centerY)
         }
-    }
-
-    func setDummyValues() {
-        itemImageView.image = .dummyBurger
-        itemTitleLabel.text = "통모짜와퍼 세트"
-        itemPriceLabel.text = "12,500원"
-        itemQuantityLabel.text = "1"
-        totalPriceLabel.text = "12,500원"
     }
 }
 

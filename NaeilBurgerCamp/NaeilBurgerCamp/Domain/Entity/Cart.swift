@@ -1,7 +1,7 @@
 import Foundation
 
 struct Cart {
-    struct Detail {
+    struct Detail: Hashable {
         let menuItem: MenuItem
         var quantity: Int
 

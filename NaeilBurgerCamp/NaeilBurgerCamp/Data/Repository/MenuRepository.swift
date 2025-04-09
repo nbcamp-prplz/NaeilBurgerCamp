@@ -17,7 +17,7 @@ class MenuRepository: MenuRepositoryProtocol {
         switch result {
         case .success(let response):
             let fsCategories = response.documents.map{ $0.fields }
-            return .success(fsCategories.map { Category(from: $0) })
+            return .success(fsCategories.map { Category(from: $0) }.sorted(by: { $0.sortOrder < $1.sortOrder }))
         case .failure(let error):
             return .failure(error)
         }

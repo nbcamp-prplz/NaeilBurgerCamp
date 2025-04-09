@@ -3,7 +3,7 @@ import UIKit
 extension UICollectionView {
     static func withCompositionalLayout() -> UICollectionView {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            if let section = CollectionViewSection(sectionIndex) {
+            if let section = Section(sectionIndex) {
                 return section.layoutSection
             }
             return nil

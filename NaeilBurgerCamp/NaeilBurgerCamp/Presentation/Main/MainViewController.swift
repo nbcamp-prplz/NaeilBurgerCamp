@@ -1,12 +1,25 @@
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
+
+typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
+typealias SnapShot = NSDiffableDataSourceSnapshot<Section, Item>
 
 final class MainViewController: UIViewController {
-    private let dummyCategoryTitles = ["단품", "세트", "사이드", "음료"]
-    private var dummySelectedCategoryIndex = 0
     private var currentPage = 0
     private let itemsPerPage = 4 // 한 페이지에 4개 아이템 (2x2 그리드)
     private var totalMenuItems = 8
+
+    private let viewModel = MainViewModel()
+    private var dataSource: DataSource?
+
+    private let selectCategory = BehaviorRelay<String>(value: "")
+    private let addMenuItem = PublishRelay<MenuItem>()
+    private let removeMenuItem = PublishRelay<MenuItem>()
+    private let resetCart = PublishRelay<Void>()
+    private let placeOrder = PublishRelay<Void>()
+    private let disposeBag = DisposeBag()
 
     private let logoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -26,8 +39,6 @@ final class MainViewController: UIViewController {
             CartSectionHeader.self,
             CartItemCell.self
         )
-        collectionView.dataSource = self
-        collectionView.delegate = self
 
         return collectionView
     }()
@@ -42,7 +53,9 @@ private extension MainViewController {
     func configure() {
         setLayout()
         setHierarchy()
+        setDataSource()
         setConstraints()
+        setBinding()
     }
     
     func setLayout() {
@@ -52,7 +65,68 @@ private extension MainViewController {
     func setHierarchy() {
         view.addSubviews(logoImageView, collectionView)
     }
-    
+
+    func setDataSource() {
+        dataSource = DataSource(
+            collectionView: collectionView,
+            cellProvider: { collectionView, indexPath, itemIdentifier in
+                switch itemIdentifier {
+                case .category(let category):
+                    guard let cell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: CategoryCell.identifier,
+                        for: indexPath
+                    ) as? CategoryCell else { return UICollectionViewCell() }
+                    cell.configure(with: category.title)
+                    if indexPath.section == 0 && indexPath.item == 0 {
+                        collectionView.selectItem(
+                            at: IndexPath(item: 0, section: 0),
+                            animated: true,
+                            scrollPosition: .centeredVertically
+                        )
+                    }
+                    return cell
+                case .menuItem(let menuItem):
+                    guard let cell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: MenuItemCell.identifier,
+                        for: indexPath
+                    ) as? MenuItemCell else { return UICollectionViewCell() }
+                    cell.configure(image: .dummyBurger, title: menuItem.title, price: menuItem.price)
+                    return cell
+                case .cart(let detail):
+                    guard let cell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: CartItemCell.identifier,
+                        for: indexPath
+                    ) as? CartItemCell else { return UICollectionViewCell() }
+                    cell.configure(with: detail)
+                    return cell
+                }
+            })
+
+        dataSource?.supplementaryViewProvider = { [weak self] (collectionView, kind, indexPath) in
+            guard let self,
+                  let section = self.dataSource?.sectionIdentifier(for: indexPath.section) else {
+                return UICollectionReusableView()
+            }
+
+            switch section {
+            case .menuItems:
+                return collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: MenuItemSectionFooter.identifier,
+                    for: indexPath
+                )
+            case .cartItems:
+                return collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: CartSectionHeader.identifier,
+                    for: indexPath
+                )
+            default:
+                return UICollectionReusableView()
+            }
+        }
+    }
+
     func setConstraints() {
         logoImageView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(8)
@@ -67,110 +141,88 @@ private extension MainViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20) // 하단 플로팅 버튼 공간 확보
         }
     }
+
+    func setBinding() {
+        let input = MainViewModel.Input(
+            selectCategory: selectCategory.asObservable(),
+            addMenuItem: addMenuItem.asObservable(),
+            removeMenuItem: removeMenuItem.asObservable(),
+            resetCart: resetCart.asObservable(),
+            placeOrder: placeOrder.asObservable()
+        )
+        let output = viewModel.transform(input: input)
+
+        Observable.combineLatest(output.categories, output.menuItems, output.cart)
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] categories, menuItems, cart in
+                guard let self else { return }
+
+                if self.selectCategory.value.isEmpty {
+                    selectCategory.accept(categories.first?.id ?? "")
+                }
+
+                var snapshot = SnapShot()
+
+                let categoriesSection = Section.categories
+                let category = categories.map { Item.category($0) }
+
+                let menuItemsSection = Section.menuItems
+                let menuItem = menuItems.map { Item.menuItem($0) }
+
+                let cartSection = Section.cartItems
+                let cartItem = cart.details.map { Item.cart($0) }
+
+                snapshot.deleteAllItems()
+                snapshot.appendSections([categoriesSection, menuItemsSection, cartSection])
+                snapshot.appendItems(category, toSection: categoriesSection)
+                snapshot.appendItems(menuItem, toSection: menuItemsSection)
+                snapshot.appendItems(cartItem, toSection: cartSection)
+
+                dataSource?.apply(snapshot, animatingDifferences: true)
+            }
+            .disposed(by: disposeBag)
+
+        output.cancelButtonIsEnabled
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] isEnabled in
+                guard let self else { return }
+                () // TODO: cancelButtonIsEnabled
+            }
+            .disposed(by: disposeBag)
+
+        output.orderButtonIsEnabled
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] isEnabled in
+                guard let self else { return }
+                () // TODO: orderButtonIsEnabled
+            }
+            .disposed(by: disposeBag)
+
+        output.errorMessage
+            .bind { message in
+                print(message)
+            }
+            .disposed(by: disposeBag)
+
+        collectionView.rx.itemSelected
+            .bind { [weak self] indexPath in
+                guard let self else { return }
+                switch indexPath.section {
+                case 0: // Category
+                    let category = output.categories.value[indexPath.item]
+                    self.selectCategory.accept(category.id)
+                case 1: // MenuItems
+                    let menuItem = output.menuItems.value[indexPath.item]
+                    self.addMenuItem.accept(menuItem)
+                default:
+                    ()
+                }
+            }
+            .disposed(by: disposeBag)
+    }
 }
 
-extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        if let section = CollectionViewSection(section) {
-            return section.numberOfItemsInSection
-        }
-        return 0
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        switch indexPath.section {
-        case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
-
-            // 카테고리 데이터 설정 (예시)
-            let categories = ["단품", "세트", "사이드", "음료", "음료"]
-            let isSelected = indexPath.item == 0 // 첫 번째 아이템이 선택된 상태로 시작
-
-            cell.configure(with: categories[indexPath.item])
-
-            return cell
-        case 1:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuItemCell", for: indexPath) as! MenuItemCell
-            let dummyImage: UIImage = .dummyBurger
-            // 예시 데이터 설정
-            let items = [
-                ("통모짜와퍼", 10000, dummyImage),
-                ("BBQ 통모짜와퍼", 10000, dummyImage),
-                ("통모짜 와퍼주니어", 10000, dummyImage),
-                ("통모짜 와퍼주니어", 10000, dummyImage),
-                ("통모짜와퍼", 10000, dummyImage),
-                ("BBQ 통모짜와퍼", 10000, dummyImage),
-                ("통모짜 와퍼주니어", 10000, dummyImage),
-                ("통모짜 와퍼주니어", 10000, dummyImage),
-            ]
-
-            let (title, price, image) = items[indexPath.item]
-            cell.configure(image: image, title: title, price: price)
-
-            return cell
-        case 2:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CartItemCell.identifier, for: indexPath) as! CartItemCell
-            return cell
-        default:
-            return UICollectionViewCell()
-        }
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        viewForSupplementaryElementOfKind kind: String,
-        at indexPath: IndexPath
-    ) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionFooter && indexPath.section == 1 {
-            let footerView = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: MenuItemSectionFooter.identifier,
-                for: indexPath
-            ) as! MenuItemSectionFooter
-
-            footerView.delegate = self
-
-            let maxPage = (totalMenuItems + itemsPerPage - 1) / itemsPerPage - 1
-            footerView.updateButtonState(isPreviousEnabled: currentPage > 0,
-                                         isNextEnabled: currentPage < maxPage)
-
-            return footerView
-        } else if kind == UICollectionView.elementKindSectionHeader && indexPath.section == 2 {
-            let headerView = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: CartSectionHeader.identifier,
-                for: indexPath
-            ) as! CartSectionHeader
-
-            return headerView
-        }
-
-        return UICollectionReusableView()
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        didSelectItemAt indexPath: IndexPath
-    ) {
-        // 카테고리 선택 시 처리
-        for i in 0..<collectionView.numberOfItems(inSection: 0) {
-            let cell = collectionView.cellForItem(at: IndexPath(item: i, section: 0)) as? CategoryCell
-//            cell?.updateSelection(i == indexPath.item)
-        }
-
-        // 추가 작업 (예: 다른 섹션 필터링 등)
-    }
-
+extension MainViewController: UICollectionViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         updateCurrentPageFromScrollPosition()
     }
