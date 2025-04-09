@@ -43,6 +43,8 @@ final class MainViewController: UIViewController {
         return collectionView
     }()
 
+    private let placeOrderView = PlaceOrderView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
@@ -63,7 +65,7 @@ private extension MainViewController {
     }
     
     func setHierarchy() {
-        view.addSubviews(logoImageView, collectionView)
+        view.addSubviews(logoImageView, collectionView, placeOrderView)
     }
 
     func setDataSource() {
@@ -139,6 +141,11 @@ private extension MainViewController {
             make.top.equalTo(logoImageView.snp.bottom).offset(16)
             make.directionalHorizontalEdges.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20) // 하단 플로팅 버튼 공간 확보
+        }
+
+        placeOrderView.snp.makeConstraints { make in
+            make.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalToSuperview()
         }
     }
 
