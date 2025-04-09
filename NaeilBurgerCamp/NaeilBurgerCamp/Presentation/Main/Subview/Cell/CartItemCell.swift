@@ -1,6 +1,6 @@
 import UIKit
 
-class CartItemCell: UICollectionViewCell {
+final class CartItemCell: UICollectionViewCell {
     static let identifier = "CartItemCell"
 
     private let containerView: UIView = {

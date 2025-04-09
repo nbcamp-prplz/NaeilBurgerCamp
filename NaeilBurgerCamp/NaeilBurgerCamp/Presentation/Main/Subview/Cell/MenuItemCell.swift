@@ -1,6 +1,6 @@
 import UIKit
 
-class MenuItemCell: UICollectionViewCell {
+final class MenuItemCell: UICollectionViewCell {
     static let identifier = "MenuItemCell"
 
     private let containerView: UIView = {

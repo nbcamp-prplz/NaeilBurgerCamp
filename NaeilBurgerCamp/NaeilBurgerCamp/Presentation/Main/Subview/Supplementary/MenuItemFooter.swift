@@ -5,7 +5,7 @@ protocol MenuItemFooterViewDelegate: AnyObject {
     func didTapNextButton()
 }
 
-class MenuItemFooter: UICollectionReusableView {
+final class MenuItemFooter: UICollectionReusableView {
     static let identifier = "MenuItemFooter"
 
     weak var delegate: MenuItemFooterViewDelegate?

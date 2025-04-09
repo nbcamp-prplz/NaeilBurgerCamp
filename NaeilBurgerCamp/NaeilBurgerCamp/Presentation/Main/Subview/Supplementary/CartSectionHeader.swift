@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class CartSectionHeader: UICollectionReusableView {
+final class CartSectionHeader: UICollectionReusableView {
     static let identifier = "CartSectionHeader"
 
     private let titleLabel: UILabel = {
