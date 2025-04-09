@@ -140,7 +140,7 @@ private extension MainViewController {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(logoImageView.snp.bottom).offset(16)
             make.directionalHorizontalEdges.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20) // 하단 플로팅 버튼 공간 확보
+            make.bottom.equalTo(placeOrderView.snp.top)
         }
 
         placeOrderView.snp.makeConstraints { make in

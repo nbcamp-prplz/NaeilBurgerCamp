@@ -134,7 +134,7 @@ enum Section: Hashable {
         // 그룹 크기 설정 (수직 스크롤이므로 한 행에 하나의 아이템)
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(140)
+            heightDimension: .estimated(120)
         )
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize,
@@ -143,8 +143,8 @@ enum Section: Hashable {
 
         // 섹션 설정
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 10 // 아이템 간 간격
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12) // 좌우 여백 설정
+        section.interGroupSpacing = 16 // 아이템 간 간격
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 12, bottom: 16, trailing: 12) // 좌우 여백 설정
 
         // 헤더 설정
         let headerSize = NSCollectionLayoutSize(
