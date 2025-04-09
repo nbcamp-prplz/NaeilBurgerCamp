@@ -1,6 +1,6 @@
 import Foundation
 
-struct Category {
+struct Category: Hashable {
     let id: String
     let title: String
     let sortOrder: Int

@@ -1,6 +1,6 @@
 import Foundation
 
-struct MenuItem {
+struct MenuItem: Hashable {
     let id: String
     let categoryID: String
     let title: String
