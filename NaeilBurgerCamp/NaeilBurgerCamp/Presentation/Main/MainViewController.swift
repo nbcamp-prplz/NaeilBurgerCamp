@@ -101,7 +101,7 @@ final class MainViewController: UIViewController {
         )
         let verticalGroup = NSCollectionLayoutGroup.vertical(
             layoutSize: verticalGroupSize,
-            subitem: horizontalGroup,
+            repeatingSubitem: horizontalGroup,
             count: 2
         )
 
