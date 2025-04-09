@@ -52,10 +52,12 @@ final class PlaceOrderView: UIView {
 
     func updateCancelButtonIsEnabled(_ isEnabled: Bool) {
         cancelButton.isEnabled = isEnabled
+        cancelButton.layer.opacity = isEnabled ? 1.0 : 0.5
     }
 
     func updateOrderButtonIsEnabled(_ isEnabled: Bool) {
         orderButton.isEnabled = isEnabled
+        orderButton.layer.opacity = isEnabled ? 1.0 : 0.5
     }
 
     func updateOrderButtonTitle(with cart: Cart) {
@@ -102,10 +104,10 @@ private extension PlaceOrderView {
         }
 
         orderButton.snp.makeConstraints { make in
+            make.top.equalTo(franchiseLabel.snp.bottom).offset(14)
             make.leading.equalTo(cancelButton.snp.trailing).offset(16)
             make.trailing.equalToSuperview().inset(24)
-            make.height.equalTo(cancelButton.snp.height)
-            make.centerY.equalTo(cancelButton.snp.centerY)
+            make.height.equalTo(42)
         }
     }
 
