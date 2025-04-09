@@ -16,7 +16,7 @@ final class MenuUseCase: MenuUseCaseProtocol {
     let menuItems = PublishSubject<MenuItems>()
     let errorMessage = PublishSubject<String>()
 
-    init(repository: MenuRepositoryProtocol) {
+    init(repository: MenuRepositoryProtocol = MenuRepository()) {
         self.repository = repository
     }
 
