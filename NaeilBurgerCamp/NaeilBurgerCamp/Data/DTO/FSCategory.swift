@@ -1,15 +1,15 @@
 import Foundation
 
-struct FSCategories: Decodable {
+struct FSCategories: Codable {
     let documents: [FSCategoryDocument]
 }
 
-struct FSCategoryDocument: Decodable {
+struct FSCategoryDocument: Codable {
     let name: String
     let fields: FSCategory
 }
 
-struct FSCategory: Decodable {
+struct FSCategory: Codable {
     let id: FSString
     let title: FSString
     let sortOrder: FSInteger

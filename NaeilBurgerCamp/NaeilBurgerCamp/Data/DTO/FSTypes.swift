@@ -1,25 +1,25 @@
 import Foundation
 
-struct FSString: Decodable {
+struct FSString: Codable {
     let stringValue: String
 }
 
-struct FSInteger: Decodable {
+struct FSInteger: Codable {
     let integerValue: String
 }
 
-struct FSArray<T: Decodable>: Decodable {
+struct FSArray<T: Codable>: Codable {
     let arrayValue: FSArrayValue<T>
 }
 
-struct FSArrayValue<T: Decodable>: Decodable {
+struct FSArrayValue<T: Codable>: Codable {
     let values: Array<T>
 }
 
-struct FSMap<T: Decodable>: Decodable {
+struct FSMap<T: Codable>: Codable {
     let mapValue: T
 }
 
-struct FSFields<T: Decodable>: Decodable {
+struct FSFields<T: Codable>: Codable {
     let fields: T
 }

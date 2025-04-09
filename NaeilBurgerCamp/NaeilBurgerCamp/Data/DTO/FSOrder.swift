@@ -1,21 +1,21 @@
 import Foundation
 
-struct FSOrders: Decodable {
+struct FSOrders: Codable {
     let documents: [FSOrderDocument]
 }
 
-struct FSOrderDocument: Decodable {
+struct FSOrderDocument: Codable {
     let name: String
     let fields: FSOrder
 }
 
-struct FSOrder: Decodable {
+struct FSOrder: Codable {
     let id: FSString
     let paymentDate: FSString
     let orderDetails: FSArray<FSMap<FSFields<FSOrderDetail>>>
 }
 
-struct FSOrderDetail: Decodable {
+struct FSOrderDetail: Codable {
     let menuItemID: FSString
     let quantity: FSInteger
 }
