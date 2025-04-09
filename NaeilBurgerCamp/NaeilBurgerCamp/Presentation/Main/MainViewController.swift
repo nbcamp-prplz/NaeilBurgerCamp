@@ -193,7 +193,7 @@ private extension MainViewController {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] isEnabled in
                 guard let self else { return }
-                () // TODO: cancelButtonIsEnabled
+                self.placeOrderView.updateCancelButtonIsEnabled(isEnabled)
             }
             .disposed(by: disposeBag)
 
@@ -201,7 +201,7 @@ private extension MainViewController {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] isEnabled in
                 guard let self else { return }
-                () // TODO: orderButtonIsEnabled
+                self.placeOrderView.updateOrderButtonIsEnabled(isEnabled)
             }
             .disposed(by: disposeBag)
 

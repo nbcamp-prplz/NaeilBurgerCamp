@@ -44,6 +44,14 @@ final class PlaceOrderView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented.")
     }
+
+    func updateCancelButtonIsEnabled(_ isEnabled: Bool) {
+        cancelButton.isEnabled = isEnabled
+    }
+
+    func updateOrderButtonIsEnabled(_ isEnabled: Bool) {
+        orderButton.isEnabled = isEnabled
+    }
 }
 
 private extension PlaceOrderView {
