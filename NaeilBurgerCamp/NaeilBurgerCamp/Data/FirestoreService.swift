@@ -31,7 +31,7 @@ private extension FirestoreService {
     func fetch<T: Decodable>(from path: FSPath, as type: T.Type) async -> Result<T, FSError> {
         let urlString = "\(baseURL)/\(path)"
         guard let url = URL(string: urlString) else {
-            return .failure(.invalidURL)
+            return .failure(.invalidURL(urlString: urlString))
         }
 
         var request = URLRequest(url: url)
