@@ -29,8 +29,8 @@ final class MainViewModel: MainViewModelProtocol {
         let orderTapped: Observable<Void>
     }
     struct Output {
-        let orders = PublishRelay<Void>()
-        let cancelResult = PublishRelay<Void>()
+        let orderButtonIsDisable = PublishRelay<Bool>()
+        let cancelButtonIsDisable = PublishRelay<Bool>() // 활성화, 비활성화
         let items = BehaviorRelay<[MenuItem]>(value: [])
         let quantity: Observable<Int>
         let orderResult = PublishRelay<Bool>()
@@ -72,14 +72,15 @@ final class MainViewModel: MainViewModelProtocol {
                 guard let self = self else { return }
                 self.quantity.accept(0)
                 self.selectedMenuItem.accept(nil)
-                output.cancelResult.accept(())
+                output.cancelButtonIsDisable
+                    .accept(quantity.value == 0) // menu + quantity -> 배열처리 후 isEmpty
             })
             .disposed(by: disposeBag)
         
         input.orderTapped
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                guard let selectedMenuItem = self.selectedMenuItem.value else { return }
+                guard let selectedMenuItem = self.selectedMenuItem.value else { return } // 단일 상품만 다뤄지는 상태 -> 배열로 수정
                 let orderDetails = DummyOrderDetails(menuItem: selectedMenuItem, quantity: self.quantity.value)
                 let isSuccess = self.placeOrder(orderDetails: orderDetails)
                 output.orderResult.accept(isSuccess)
