@@ -193,11 +193,11 @@ private extension MainViewController {
             }
             .disposed(by: disposeBag)
 
-        output.cancelButtonIsEnabled
+        output.cancelButtonIsHidden
             .observe(on: MainScheduler.instance)
-            .bind { [weak self] isEnabled in
+            .bind { [weak self] isHidden in
                 guard let self else { return }
-                self.placeOrderView.updateCancelButtonIsEnabled(isEnabled)
+                self.placeOrderView.updateCancelButtonIsHidden(isHidden)
             }
             .disposed(by: disposeBag)
 

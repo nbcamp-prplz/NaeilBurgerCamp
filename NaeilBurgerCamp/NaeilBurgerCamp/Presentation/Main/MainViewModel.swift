@@ -28,7 +28,7 @@ final class MainViewModel: MainViewModelProtocol {
         let categories = BehaviorRelay<Categories>(value: [])
         let menuItems = BehaviorRelay<MenuItems>(value: [])
         let cart: Observable<Cart>
-        let cancelButtonIsEnabled = BehaviorRelay<Bool>(value: false)
+        let cancelButtonIsHidden = BehaviorRelay<Bool>(value: true)
         let orderButtonIsEnabled = BehaviorRelay<Bool>(value: false)
         let errorMessage = BehaviorRelay<String>(value: "")
     }
@@ -98,7 +98,7 @@ final class MainViewModel: MainViewModelProtocol {
 
         cart
             .bind { cart in
-                output.cancelButtonIsEnabled.accept(cart.totalQuantity > 0)
+                output.cancelButtonIsHidden.accept(cart.totalQuantity == 0)
                 output.orderButtonIsEnabled.accept(cart.totalQuantity > 0)
             }
             .disposed(by: disposeBag)

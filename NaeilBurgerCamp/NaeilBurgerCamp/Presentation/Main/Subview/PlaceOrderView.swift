@@ -57,9 +57,9 @@ final class PlaceOrderView: UIView {
         fatalError("init(coder:) has not been implemented.")
     }
 
-    func updateCancelButtonIsEnabled(_ isEnabled: Bool) {
+    func updateCancelButtonIsHidden(_ isHidden: Bool) {
         UIView.transition(with: cancelButton, duration: 0.2, options: .transitionCrossDissolve) {
-            self.cancelButton.isHidden = !isEnabled
+            self.cancelButton.isHidden = isHidden
         }
     }
 
