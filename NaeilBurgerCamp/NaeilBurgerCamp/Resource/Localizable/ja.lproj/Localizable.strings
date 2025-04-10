@@ -1,22 +1,22 @@
 
 // Cart Section Header
-"주문 내역" = "注文内訳";
+"orderDetails" = "注文内訳";
 
 // Place Order View
-"내버캠 iOS 마스터 3호점" = "NBC, iOS Master No. 3";
+"shopInfo" = "NBCamp, iOS Master No. 3";
 
-// cance lButton
-"취소" = "キャンセル";
+// cancelButton
+"cancel" = "キャンセル";
 
 // order Success Message Label
-"주문이 완료되었습니다!" = "注文が完了しました！";
+"orderSuccess" = "注文が完了しました！";
 
 // update Order Butto nTitle
-"항목을 추가해주세요!" = "項目を追加してください！";
-"order_button_title" = "(%d) %d ウォン支払う";
+"pleaseAddItem" = "項目を追加してください！";
+"ordering" = "(%d) %d ウォン支払う";
 
 // show Reset CartAlert
-"주문 취소" = "注文の取り消し";
-"정말로 주문을 취소하시겠어요?" = "本当に注文をキャンセルしますか？";
-"아니요" = "いいえ";
-"네" = "はい";
+"orderCancel" = "注文の取り消し";
+"resetAlertTitle" = "本当に注文をキャンセルしますか？";
+"yes" = "いいえ";
+"no" = "はい";

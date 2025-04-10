@@ -1,22 +1,22 @@
 
 // CartSectionHeader
-"주문 내역" = "Place Order";
+"orderDetails" = "Place Order";
 
 // PlaceOrderView
-"내버캠 iOS 마스터 3호점" = "NBC, iOS Master No. 3";
+"shopInfo" = "NBCamp, iOS Master No. 3";
 
 // cancelButton
-"취소" = "Cancel";
+"cancel" = "Cancel";
 
 // orderSuccessMessageLabel
-"주문이 완료되었습니다!" = "Your order is READY!";
+"orderSuccess" = "Your order is READY!";
 
 // updateOrderButtonTitle
-"항목을 추가해주세요!" = "Please add an item!";
-"order_button_title" = "(%d) Pay %d Won";
+"pleaseAddItem" = "Please add an item!";
+"ordering" = "(%d) Pay %d Won";
 
 // showResetCartAlert
-"주문 취소" = "Cancel Order";
-"정말로 주문을 취소하시겠어요?" = "Are you sure you want to cancel?";
-"아니요" = "No";
-"네" = "Yes";
+"orderCancel" = "Cancel Order";
+"resetAlertTitle" = "Are you sure you want to cancel?";
+"no" = "No";
+"yes" = "Yes";
