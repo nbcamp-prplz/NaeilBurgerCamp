@@ -3,7 +3,7 @@ import UIKit
 final class MenuItemCell: UICollectionViewCell {
     private let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .bcBackground3
+        view.backgroundColor = .bcBackground5
         view.layer.cornerRadius = 8
 
         view.layer.shadowColor = UIColor.black.cgColor
@@ -18,14 +18,14 @@ final class MenuItemCell: UICollectionViewCell {
     private let itemImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "carrot.fill")
-        imageView.backgroundColor = .bcBackground3
+        imageView.backgroundColor = .bcBackground5
 
         return imageView
     }()
 
     private let itemTitleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .bcPrimary
+        label.textColor = .bcText5
         label.textAlignment = .center
         label.numberOfLines = 1
         label.font = UIFont.nanumSquareRound(ofSize: 14, weight: .heavy)
@@ -35,7 +35,7 @@ final class MenuItemCell: UICollectionViewCell {
 
     private let itemPriceLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .bcPrimary
+        label.textColor = .bcText5
         label.textAlignment = .center
         label.numberOfLines = 1
         label.font = UIFont.nanumSquareRound(ofSize: 11, weight: .heavy)

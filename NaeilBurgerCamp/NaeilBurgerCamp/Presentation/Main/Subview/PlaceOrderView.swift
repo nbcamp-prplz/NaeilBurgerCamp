@@ -11,7 +11,7 @@ final class PlaceOrderView: UIView {
     private lazy var franchiseLabel: UILabel = {
         let label = UILabel()
         label.text = String(.franchiseInfo)
-        label.textColor = .bcMocha
+        label.textColor = .bcText3
         label.font = .nanumSquareRound(ofSize: 13, weight: .heavy)
 
         return label
@@ -29,7 +29,7 @@ final class PlaceOrderView: UIView {
         let button = UIButton(type: .system)
         button.backgroundColor = .bcBackground4
         button.setTitle(String(.cancel), for: .normal)
-        button.setTitleColor(.bcBlack, for: .normal)
+        button.setTitleColor(.bcText1, for: .normal)
         button.titleLabel?.font = .nanumSquareRound(ofSize: 15, weight: .heavy)
         button.layer.cornerRadius = 20
         button.clipsToBounds = true
@@ -40,7 +40,7 @@ final class PlaceOrderView: UIView {
     private lazy var orderButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .bcPrimary
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.bcText4, for: .normal)
         button.titleLabel?.font = .nanumSquareRound(ofSize: 15, weight: .heavy)
         button.layer.cornerRadius = 20
         button.clipsToBounds = true
@@ -50,7 +50,7 @@ final class PlaceOrderView: UIView {
 
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
-        indicator.color = .white
+        indicator.color = .bcIndicator
         indicator.hidesWhenStopped = true
 
         return indicator
@@ -60,7 +60,7 @@ final class PlaceOrderView: UIView {
         let label = UILabel()
         label.backgroundColor = .bcPrimary
         label.text = String(.orderSuccess)
-        label.textColor = .white
+        label.textColor = .bcText4
         label.font = .nanumSquareRound(ofSize: 15, weight: .heavy)
         label.textAlignment = .center
         label.isHidden = true
@@ -127,7 +127,7 @@ private extension PlaceOrderView {
     }
 
     func setLayout() {
-        backgroundColor = .bcBackground3
+        backgroundColor = .bcBackground6
 
         layer.shadowColor = UIColor(named: "BCBlack")?.cgColor
         layer.shadowOpacity = 0.2

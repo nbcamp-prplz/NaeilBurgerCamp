@@ -37,8 +37,8 @@ final class CategoryCell: UICollectionViewCell {
     }
 
     private func updateAppearance() {
-        titleLabel.textColor = isSelected ? .white : .bcPrimary
-        backgroundColor = isSelected ? .bcPrimary : .bcBackground2
+        titleLabel.textColor = isSelected ? .bcText4 : .bcPrimary
+        backgroundColor = isSelected ? .bcBackground2 : .bcBackground3
     }
 }
 
@@ -52,7 +52,7 @@ private extension CategoryCell {
     func setLayout() {
         layer.cornerRadius = 12
         clipsToBounds = true
-        backgroundColor = .bcBackground2
+        backgroundColor = .bcBackground3
     }
 
     func setHierarchy() {

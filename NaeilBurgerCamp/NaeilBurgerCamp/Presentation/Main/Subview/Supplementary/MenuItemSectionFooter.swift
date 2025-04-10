@@ -10,7 +10,7 @@ final class MenuItemSectionFooter: UICollectionReusableView {
 
     private let divider: UIView = {
         let view = UIView()
-        view.backgroundColor = .bcBackground2
+        view.backgroundColor = .bcDivider1
         view.layer.cornerRadius = 2
 
         return view
