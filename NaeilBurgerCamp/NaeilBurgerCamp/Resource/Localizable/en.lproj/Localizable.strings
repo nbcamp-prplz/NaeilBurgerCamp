@@ -22,4 +22,4 @@
 "yes" = "Yes";
 
 // Menu
-"menuPrice" = "%@won";
+"menuItemPrice" = "%@won";

@@ -12,7 +12,7 @@ extension String {
         case wantCancel
         case no
         case yes
-        case menuPrice
+        case menuItemPrice
     }
     
     init(_ localizedType: LocalizedType) {

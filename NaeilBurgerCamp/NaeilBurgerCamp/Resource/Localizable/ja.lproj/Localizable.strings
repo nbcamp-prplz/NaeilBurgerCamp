@@ -22,4 +22,4 @@
 "no" = "はい";
 
 // Menu
-"menuPrice" = "%@ウォン";
+"menuItemPrice" = "%@ウォン";

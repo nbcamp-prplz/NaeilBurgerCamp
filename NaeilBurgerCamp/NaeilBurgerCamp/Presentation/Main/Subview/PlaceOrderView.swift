@@ -91,14 +91,12 @@ final class PlaceOrderView: UIView {
     
     func updateOrderButtonTitle(with cart: Cart) {
         let title = cart.totalQuantity == 0
-        ? String(.pleaseAddItem)
-        : String(.ordering,
-                 with: cart.totalQuantity,
-                 cart.totalPrice.numberFormatted
-        )
-        DispatchQueue.main.async {
-            self.orderButton.setTitle(title, for: .normal)
-        }
+            ? String(.pleaseAddItem)
+            : String(
+                .ordering,
+                with: cart.totalQuantity, cart.totalPrice.numberFormatted
+            )
+        orderButton.setTitle(title, for: .normal)
         activityIndicator.stopAnimating()
     }
 

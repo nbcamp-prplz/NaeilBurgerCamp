@@ -22,4 +22,4 @@
 "yes" = "네";
 
 // Menu
-"menuPrice" = "%@원";
+"menuItemPrice" = "%@원";

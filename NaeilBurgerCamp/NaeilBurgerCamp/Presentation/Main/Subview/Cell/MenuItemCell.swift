@@ -56,7 +56,7 @@ final class MenuItemCell: UICollectionViewCell {
     func configure(image: UIImage, title: String, price: Int) {
         itemImageView.image = image
         itemTitleLabel.text = title
-        itemPriceLabel.text = String(.menuPrice, with: price.numberFormatted)
+        itemPriceLabel.text = String(.menuItemPrice, with: price.numberFormatted)
     }
 
 }
