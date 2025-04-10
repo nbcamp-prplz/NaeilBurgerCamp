@@ -90,13 +90,6 @@ private extension MainViewController {
                         for: indexPath
                     ) as? CategoryCell else { return UICollectionViewCell() }
                     cell.configure(with: category.title)
-                    if indexPath.section == 0 && indexPath.item == 0 {
-                        collectionView.selectItem(
-                            at: IndexPath(item: 0, section: 0),
-                            animated: false,
-                            scrollPosition: .centeredHorizontally
-                        )
-                    }
                     return cell
                 case .menuItem(let menuItem):
                     guard let cell = collectionView.dequeueReusableCell(
@@ -193,9 +186,9 @@ private extension MainViewController {
             }
             .bind { [weak self] categories, menuItems, cart in
                 guard let self else { return }
-
-                if self.selectCategory.value.isEmpty {
+                guard !self.selectCategory.value.isEmpty else {
                     selectCategory.accept(categories.first?.id ?? "")
+                    return
                 }
 
                 var snapshot = SnapShot()
@@ -215,7 +208,17 @@ private extension MainViewController {
                 snapshot.appendItems(menuItem, toSection: menuItemsSection)
                 snapshot.appendItems(cartItem, toSection: cartSection)
 
-                dataSource?.apply(snapshot, animatingDifferences: true)
+                dataSource?.apply(snapshot, animatingDifferences: true) { [weak self] in
+                    guard let self else { return }
+                    if self.selectCategory.value == categories.first?.id {
+                        let indexPath = IndexPath(item: 0, section: 0)
+                        self.collectionView.selectItem(
+                            at: indexPath,
+                            animated: false,
+                            scrollPosition: .centeredHorizontally
+                        )
+                    }
+                }
             }
             .disposed(by: disposeBag)
 
