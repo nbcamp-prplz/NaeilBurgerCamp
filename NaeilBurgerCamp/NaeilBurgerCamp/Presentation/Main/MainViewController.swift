@@ -93,7 +93,7 @@ private extension MainViewController {
                         withReuseIdentifier: MenuItemCell.identifier,
                         for: indexPath
                     ) as? MenuItemCell else { return UICollectionViewCell() }
-                    cell.configure(image: .dummyBurger, title: menuItem.title, price: menuItem.price)
+                    cell.configure(with: menuItem)
                     return cell
                 case .cart(let detail):
                     guard let cell = collectionView.dequeueReusableCell(

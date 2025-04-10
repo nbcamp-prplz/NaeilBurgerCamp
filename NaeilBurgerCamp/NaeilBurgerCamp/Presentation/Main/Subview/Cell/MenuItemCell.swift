@@ -53,10 +53,17 @@ final class MenuItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented.")
     }
 
-    func configure(image: UIImage, title: String, price: Int) {
-        itemImageView.image = image
-        itemTitleLabel.text = title
-        itemPriceLabel.text = String(.menuItemPrice, with: price.numberFormatted)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        itemImageView.image = nil
+        itemTitleLabel.text = nil
+        itemPriceLabel.text = nil
+    }
+
+    func configure(with menuItem: MenuItem) {
+        itemImageView.setImage(with: menuItem.id)
+        itemTitleLabel.text = menuItem.title
+        itemPriceLabel.text = String(.menuItemPrice, with: menuItem.price.numberFormatted)
     }
 
 }
