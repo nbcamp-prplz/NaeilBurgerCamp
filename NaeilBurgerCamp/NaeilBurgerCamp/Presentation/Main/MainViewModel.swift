@@ -19,7 +19,8 @@ final class MainViewModel: MainViewModelProtocol {
     struct Input {
         let selectCategory: Observable<String>
         let addMenuItem: Observable<MenuItem>
-        let removeMenuItem: Observable<MenuItem>
+        let increaseMenuItem: Observable<Int>
+        let decreaseMenuItem: Observable<Int>
         let resetCart: Observable<Void>
         let placeOrder: Observable<Void>
     }
@@ -42,37 +43,46 @@ final class MainViewModel: MainViewModelProtocol {
         }
 
         input.selectCategory
-            .bind(onNext: { [weak self] categoryID in
+            .bind { [weak self] categoryID in
                 guard let self else { return }
                 Task {
                     await self.menuUseCase.fetchMenuItems(for: categoryID)
                 }
-            })
+            }
             .disposed(by: disposeBag)
 
         input.addMenuItem
-            .bind(onNext: { [weak self] menuItem in
+            .bind { [weak self] menuItem in
                 guard let self else { return }
                 var updatedCart = self.cart.value
                 updatedCart.addMenuItem(with: menuItem)
                 self.cart.accept(updatedCart)
-            })
+            }
             .disposed(by: disposeBag)
 
-        input.removeMenuItem
-            .bind(onNext: { [weak self] menuItem in
+        input.increaseMenuItem
+            .bind { [weak self] index in
                 guard let self else { return }
                 var updatedCart = self.cart.value
-                updatedCart.removeMenuItem(with: menuItem)
+                updatedCart.increaseMenuItem(at: index)
                 self.cart.accept(updatedCart)
-            })
+            }
+            .disposed(by: disposeBag)
+
+        input.decreaseMenuItem
+            .bind { [weak self] index in
+                guard let self else { return }
+                var updatedCart = self.cart.value
+                updatedCart.decreaseMenuItem(at: index)
+                self.cart.accept(updatedCart)
+            }
             .disposed(by: disposeBag)
         
         input.resetCart
-            .bind(onNext: { [weak self] in
+            .bind { [weak self] in
                 guard let self else { return }
                 self.cart.accept(Cart())
-            })
+            }
             .disposed(by: disposeBag)
 
         input.placeOrder

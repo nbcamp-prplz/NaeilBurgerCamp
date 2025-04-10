@@ -16,7 +16,8 @@ final class MainViewController: UIViewController {
 
     private let selectCategory = BehaviorRelay<String>(value: "")
     private let addMenuItem = PublishRelay<MenuItem>()
-    private let removeMenuItem = PublishRelay<MenuItem>()
+    private let increaseMenuItem = PublishRelay<Int>()
+    private let decreaseMenuItem = PublishRelay<Int>()
     private let resetCart = PublishRelay<Void>()
     private let placeOrder = PublishRelay<Void>()
     private let disposeBag = DisposeBag()
@@ -153,7 +154,8 @@ private extension MainViewController {
         let input = MainViewModel.Input(
             selectCategory: selectCategory.asObservable(),
             addMenuItem: addMenuItem.asObservable(),
-            removeMenuItem: removeMenuItem.asObservable(),
+            increaseMenuItem: increaseMenuItem.asObservable(),
+            decreaseMenuItem: increaseMenuItem.asObservable(),
             resetCart: resetCart.asObservable(),
             placeOrder: placeOrder.asObservable()
         )
@@ -234,6 +236,28 @@ private extension MainViewController {
                     self.addMenuItem.accept(menuItem)
                 default:
                     ()
+                }
+            }
+            .disposed(by: disposeBag)
+
+        collectionView.rx.willDisplayCell
+            .bind { [weak self] cell, indexPath in
+                guard let self else { return }
+
+                if let cartItemCell = cell as? CartItemCell, indexPath.section == 2 {
+                    cartItemCell.plusButtonTapped
+                        .bind { [weak self] in
+                            guard let self else { return }
+                            self.increaseMenuItem.accept(indexPath.item)
+                        }
+                        .disposed(by: cartItemCell.disposeBag)
+
+                    cartItemCell.minusButtonTapped
+                        .bind { [weak self] in
+                            guard let self else { return }
+                            self.decreaseMenuItem.accept(indexPath.item)
+                        }
+                        .disposed(by: cartItemCell.disposeBag)
                 }
             }
             .disposed(by: disposeBag)

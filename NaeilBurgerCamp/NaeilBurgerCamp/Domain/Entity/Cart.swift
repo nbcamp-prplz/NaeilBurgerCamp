@@ -28,12 +28,14 @@ struct Cart {
         }
     }
 
-    mutating func removeMenuItem(with element: MenuItem) {
-        if let index = details.firstIndex(where: { $0.menuItem.id == element.id }) {
-            details[index].quantity -= 1
-            if details[index].quantity == 0 {
-                details.remove(at: index)
-            }
+    mutating func increaseMenuItem(at index: Int) {
+        details[index].quantity += 1
+    }
+
+    mutating func decreaseMenuItem(at index: Int) {
+        details[index].quantity -= 1
+        if details[index].quantity == 0 {
+            details.remove(at: index)
         }
     }
 }

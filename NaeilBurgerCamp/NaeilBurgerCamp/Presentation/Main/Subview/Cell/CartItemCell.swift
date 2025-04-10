@@ -1,6 +1,13 @@
 import UIKit
+import SnapKit
+import RxSwift
+import RxCocoa
 
 final class CartItemCell: UICollectionViewCell {
+    let plusButtonTapped = PublishRelay<Void>()
+    let minusButtonTapped = PublishRelay<Void>()
+    var disposeBag = DisposeBag()
+
     private let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .bcBackground3
@@ -92,6 +99,11 @@ final class CartItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented.")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+
     func configure(with detail: Cart.Detail) {
         itemImageView.image = .dummyBurger
         itemTitleLabel.text = detail.menuItem.title
@@ -106,11 +118,11 @@ private extension CartItemCell {
         setLayout()
         setHierarchy()
         setConstraints()
+        setBinding()
     }
 
     func setLayout() {
         contentView.backgroundColor = .bcBackground1
-        isUserInteractionEnabled = false
     }
 
     func setHierarchy() {
@@ -179,6 +191,16 @@ private extension CartItemCell {
             make.trailing.equalTo(itemPriceLabel.snp.trailing)
             make.centerY.equalTo(minusButton.snp.centerY)
         }
+    }
+
+    func setBinding() {
+        plusButton.rx.tap
+            .bind(to: plusButtonTapped)
+            .disposed(by: disposeBag)
+
+        minusButton.rx.tap
+            .bind(to: minusButtonTapped)
+            .disposed(by: disposeBag)
     }
 }
 
