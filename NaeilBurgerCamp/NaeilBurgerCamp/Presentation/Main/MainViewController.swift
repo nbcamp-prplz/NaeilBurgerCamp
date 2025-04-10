@@ -101,6 +101,20 @@ private extension MainViewController {
                         for: indexPath
                     ) as? CartItemCell else { return UICollectionViewCell() }
                     cell.configure(with: detail)
+                    cell.plusButtonTapped
+                        .bind { [weak self] in
+                            guard let self,
+                                  let newIndexPath = dataSource?.indexPath(for: itemIdentifier) else { return }
+                            self.increaseMenuItem.accept(newIndexPath.item)
+                        }
+                        .disposed(by: cell.disposeBag)
+                    cell.minusButtonTapped
+                        .bind { [weak self] in
+                            guard let self,
+                                  let newIndexPath = dataSource?.indexPath(for: itemIdentifier) else { return }
+                            self.decreaseMenuItem.accept(newIndexPath.item)
+                        }
+                        .disposed(by: cell.disposeBag)
                     return cell
                 }
             })
@@ -240,27 +254,7 @@ private extension MainViewController {
             }
             .disposed(by: disposeBag)
 
-        collectionView.rx.willDisplayCell
-            .bind { [weak self] cell, indexPath in
-                guard let self else { return }
 
-                if let cartItemCell = cell as? CartItemCell, indexPath.section == 2 {
-                    cartItemCell.plusButtonTapped
-                        .bind { [weak self] in
-                            guard let self else { return }
-                            self.increaseMenuItem.accept(indexPath.item)
-                        }
-                        .disposed(by: cartItemCell.disposeBag)
-
-                    cartItemCell.minusButtonTapped
-                        .bind { [weak self] in
-                            guard let self else { return }
-                            self.decreaseMenuItem.accept(indexPath.item)
-                        }
-                        .disposed(by: cartItemCell.disposeBag)
-                }
-            }
-            .disposed(by: disposeBag)
 
         placeOrderView.cancelButtonTapped
             .bind { [weak self] in
