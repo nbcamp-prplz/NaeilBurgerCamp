@@ -96,15 +96,10 @@ final class PlaceOrderView: UIView {
                  with: cart.totalQuantity,
                  cart.totalPrice.numberFormatted
         )
-        
         DispatchQueue.main.async {
             self.orderButton.setTitle(title, for: .normal)
         }
-        
         activityIndicator.stopAnimating()
-        print("Formatted Price :  \(cart.totalPrice.numberFormatted)")
-        print("Total Price: \(cart.totalPrice)")
-
     }
 
     func showOrderSuccessMessage() {

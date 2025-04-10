@@ -20,3 +20,6 @@
 "wantCancel" = "Are you sure you want to cancel?";
 "no" = "No";
 "yes" = "Yes";
+
+// Menu
+"menuPrice" = "%@won";
