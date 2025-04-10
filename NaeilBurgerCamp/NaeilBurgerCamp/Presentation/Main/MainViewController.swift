@@ -54,7 +54,8 @@ final class MainViewController: UIViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            logoImageView.image = traitCollection.userInterfaceStyle == .light ? .lightHorizontalLogo : .darkHorizontalLogo
+            let isLightMode = traitCollection.userInterfaceStyle == .light
+            logoImageView.image = isLightMode ? .lightHorizontalLogo : .darkHorizontalLogo
         }
     }
 }
@@ -70,7 +71,8 @@ private extension MainViewController {
     
     func setLayout() {
         view.backgroundColor = .bcBackground1
-        logoImageView.image = UIScreen.main.traitCollection.userInterfaceStyle == .light ? .lightHorizontalLogo : .darkHorizontalLogo
+        let isLightMode = UIScreen.main.traitCollection.userInterfaceStyle == .light
+        logoImageView.image = isLightMode ? .lightHorizontalLogo : .darkHorizontalLogo
     }
     
     func setHierarchy() {
