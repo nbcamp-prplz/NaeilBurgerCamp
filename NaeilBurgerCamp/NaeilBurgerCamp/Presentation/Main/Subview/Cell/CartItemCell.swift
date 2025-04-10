@@ -85,8 +85,6 @@ final class CartItemCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .bcText2
         label.font = .nanumSquareRound(ofSize: 14, weight: .heavy)
-        label.textColor = .bcText2
-        label.font = UIFont.nanumSquareRound(ofSize: 14, weight: .heavy)
 
         return label
     }()

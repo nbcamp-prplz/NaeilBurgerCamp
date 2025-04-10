@@ -50,7 +50,7 @@ final class PlaceOrderView: UIView {
 
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
-        indicator.color = .systemBackground
+        indicator.color = .bcIndicator
         indicator.hidesWhenStopped = true
 
         return indicator
