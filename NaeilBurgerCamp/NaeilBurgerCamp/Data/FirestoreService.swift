@@ -27,6 +27,8 @@ final class FirestoreService {
     }
 
     func createOrder(_ fsOrder: FSOrder) async -> Result<Void, FSError> {
+        try? await Task.sleep(nanoseconds: 2_000_000_000) // 결제에 2초 정도 시간이 걸린다고 가정함
+
         let document = FSOrderDocumentForCreation(from: fsOrder)
         return await create(from: document, to: .orders, as: fsOrder.id.stringValue)
     }

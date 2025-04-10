@@ -2,10 +2,13 @@ import Foundation
 import RxSwift
 
 protocol OrderUseCaseProtocol {
+    var orderSuccess: PublishSubject<Void> { get }
+    var errerMessage: PublishSubject<String> { get }
+
     func placeOrder(for cart: Cart) async
 }
 
-class OrderUseCase: OrderUseCaseProtocol {
+final class OrderUseCase: OrderUseCaseProtocol {
     private let repository: OrderRepositoryProtocol
     let orderSuccess = PublishSubject<Void>()
     let errerMessage = PublishSubject<String>()

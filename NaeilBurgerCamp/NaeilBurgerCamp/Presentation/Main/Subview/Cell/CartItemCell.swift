@@ -121,9 +121,9 @@ private extension CartItemCell {
 
     func setConstraints() {
         containerView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(4)
+            make.top.equalToSuperview()
             make.directionalHorizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview().inset(12)
+            make.bottom.equalToSuperview()
         }
 
         itemImageView.snp.makeConstraints { make in

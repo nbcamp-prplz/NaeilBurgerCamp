@@ -43,6 +43,8 @@ final class MainViewController: UIViewController {
         return collectionView
     }()
 
+    private let placeOrderView = PlaceOrderView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
@@ -63,7 +65,7 @@ private extension MainViewController {
     }
     
     func setHierarchy() {
-        view.addSubviews(logoImageView, collectionView)
+        view.addSubviews(logoImageView, collectionView, placeOrderView)
     }
 
     func setDataSource() {
@@ -80,8 +82,8 @@ private extension MainViewController {
                     if indexPath.section == 0 && indexPath.item == 0 {
                         collectionView.selectItem(
                             at: IndexPath(item: 0, section: 0),
-                            animated: true,
-                            scrollPosition: .centeredVertically
+                            animated: false,
+                            scrollPosition: .centeredHorizontally
                         )
                     }
                     return cell
@@ -138,7 +140,12 @@ private extension MainViewController {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(logoImageView.snp.bottom).offset(16)
             make.directionalHorizontalEdges.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20) // 하단 플로팅 버튼 공간 확보
+            make.bottom.equalTo(placeOrderView.snp.top)
+        }
+
+        placeOrderView.snp.makeConstraints { make in
+            make.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalToSuperview()
         }
     }
 
@@ -154,6 +161,10 @@ private extension MainViewController {
 
         Observable.combineLatest(output.categories, output.menuItems, output.cart)
             .observe(on: MainScheduler.instance)
+            .do { [weak self] _, _, cart in
+                guard let self else { return }
+                self.placeOrderView.updateOrderButtonTitle(with: cart)
+            }
             .bind { [weak self] categories, menuItems, cart in
                 guard let self else { return }
 
@@ -182,11 +193,11 @@ private extension MainViewController {
             }
             .disposed(by: disposeBag)
 
-        output.cancelButtonIsEnabled
+        output.cancelButtonIsHidden
             .observe(on: MainScheduler.instance)
-            .bind { [weak self] isEnabled in
+            .bind { [weak self] isHidden in
                 guard let self else { return }
-                () // TODO: cancelButtonIsEnabled
+                self.placeOrderView.updateCancelButtonIsHidden(isHidden)
             }
             .disposed(by: disposeBag)
 
@@ -194,7 +205,14 @@ private extension MainViewController {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] isEnabled in
                 guard let self else { return }
-                () // TODO: orderButtonIsEnabled
+                self.placeOrderView.updateOrderButtonIsEnabled(isEnabled)
+            }
+            .disposed(by: disposeBag)
+
+        output.orderSuccess
+            .bind { [weak self] in
+                guard let self else { return }
+                self.placeOrderView.showOrderSuccessMessage()
             }
             .disposed(by: disposeBag)
 
@@ -217,6 +235,22 @@ private extension MainViewController {
                 default:
                     ()
                 }
+            }
+            .disposed(by: disposeBag)
+
+        placeOrderView.cancelButtonTapped
+            .bind { [weak self] in
+                guard let self else { return }
+                self.showResetCartAlert {
+                    self.resetCart.accept(())
+                }
+            }
+            .disposed(by: disposeBag)
+
+        placeOrderView.orderButtonTapped
+            .bind { [weak self] in
+                guard let self else { return }
+                self.placeOrder.accept(())
             }
             .disposed(by: disposeBag)
     }

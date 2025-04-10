@@ -11,6 +11,7 @@ protocol MainViewModelProtocol: AnyObject {
 
 final class MainViewModel: MainViewModelProtocol {
     private let menuUseCase: MenuUseCaseProtocol = MenuUseCase()
+    private let orderUseCase: OrderUseCaseProtocol = OrderUseCase()
 
     private var cart = BehaviorRelay<Cart>(value: Cart())
     private let disposeBag = DisposeBag()
@@ -27,8 +28,9 @@ final class MainViewModel: MainViewModelProtocol {
         let categories = BehaviorRelay<Categories>(value: [])
         let menuItems = BehaviorRelay<MenuItems>(value: [])
         let cart: Observable<Cart>
-        let cancelButtonIsEnabled = BehaviorRelay<Bool>(value: false)
+        let cancelButtonIsHidden = BehaviorRelay<Bool>(value: true)
         let orderButtonIsEnabled = BehaviorRelay<Bool>(value: false)
+        let orderSuccess = PublishRelay<Void>()
         let errorMessage = BehaviorRelay<String>(value: "")
     }
     
@@ -77,7 +79,7 @@ final class MainViewModel: MainViewModelProtocol {
             .bind { [weak self] in
                 guard let self else { return }
                 Task {
-                    // TODO: OrderUseCase.placeOrder(with: self.cart.value)
+                    await self.orderUseCase.placeOrder(for: self.cart.value)
                     self.cart.accept(Cart())
                 }
             }
@@ -95,9 +97,17 @@ final class MainViewModel: MainViewModelProtocol {
             .bind(to: output.errorMessage)
             .disposed(by: disposeBag)
 
+        orderUseCase.orderSuccess
+            .bind(to: output.orderSuccess)
+            .disposed(by: disposeBag)
+
+        orderUseCase.errerMessage
+            .bind(to: output.errorMessage)
+            .disposed(by: disposeBag)
+
         cart
             .bind { cart in
-                output.cancelButtonIsEnabled.accept(cart.totalQuantity > 0)
+                output.cancelButtonIsHidden.accept(cart.totalQuantity == 0)
                 output.orderButtonIsEnabled.accept(cart.totalQuantity > 0)
             }
             .disposed(by: disposeBag)
