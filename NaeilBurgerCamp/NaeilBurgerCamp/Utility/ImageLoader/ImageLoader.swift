@@ -9,11 +9,15 @@ final class ImageLoader {
     private let expiryStore = ExpiryDateStore()
     private let ttl: TimeInterval = 5 * 60 // 5분
 
+    private let baseUrl = "https://raw.githubusercontent.com/nbcamp-prplz/NaeilBurgerCamp/refs/heads/dev/Resources"
+
     private init() {
         cache.totalCostLimit = 50 * 1024 * 1024 // 캐시 총 용량 제한 (50MB)
     }
 
-    func loadImageData(for urlString: String) async -> Data? {
+    func loadImageData(for menuItemID: String) async -> Data? {
+        let urlString = "\(baseUrl)/\(menuItemID).png"
+
         if let cachedImageData = cache.object(forKey: urlString as NSString),
            let expiryDate = await expiryStore.expiryDate(for: urlString) {
 
