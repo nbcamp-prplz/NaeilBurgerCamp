@@ -111,6 +111,7 @@ final class CartItemCell: UICollectionViewCell {
         itemPriceLabel.text = String(.menuItemPrice, with: detail.menuItem.price.numberFormatted)
         itemQuantityLabel.text = "\(detail.quantity)"
         totalPriceLabel.text = String(.menuItemPrice, with: detail.totalPrice.numberFormatted)
+        plusButton.isEnabled = detail.quantity < 10
     }
 }
 
