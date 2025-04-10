@@ -40,9 +40,8 @@ final class ImageLoader {
             do {
                 let (data, _ ) = try await URLSession.shared.data(from: url)
                 guard let image = UIImage(data: data) else { return nil }
-                let cost = imageCost(image: image)
 
-                cache.setObject(image, forKey: urlString as NSString, cost: cost)
+                cache.setObject(image, forKey: urlString as NSString, cost: data.count)
                 await expiryStore.setExpiryDate(for: urlString, to: Date().addingTimeInterval(ttl))
                 print("이미지 다운로드 성공")
                 return image
@@ -60,11 +59,5 @@ final class ImageLoader {
         cache.removeAllObjects()
         await taskStore.clear()
         await expiryStore.clear()
-    }
-
-    private func imageCost(image: UIImage) -> Int {
-        guard let cgImage = image.cgImage else { return 0}
-        let bytesPerPixel = 4
-        return cgImage.height * cgImage.width * bytesPerPixel
     }
 }
