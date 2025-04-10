@@ -3,9 +3,11 @@ import UIKit
 extension UIImageView {
     func setImage(with urlString: String) {
         Task {
-            let image = await ImageLoader.shared.loadImage(for: urlString)
+            guard let imageData = await ImageLoader.shared.loadImageData(for: urlString) else {
+                return
+            }
             await MainActor.run {
-                self.image = image
+                self.image = UIImage(data: imageData)
             }
         }
     }
