@@ -71,7 +71,7 @@ final class PlaceOrderView: UIView {
     
     private lazy var orderQuantityLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .bcBlack
+        label.textColor = .bcText1
         label.font = .nanumSquareRound(ofSize: 12, weight: .bold)
         label.textAlignment = .center
         label.backgroundColor = .white

@@ -7,10 +7,6 @@ typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
 typealias SnapShot = NSDiffableDataSourceSnapshot<Section, Item>
 
 final class MainViewController: UIViewController {
-    private var currentPage = 0
-    private let itemsPerPage = 4 // 한 페이지에 4개 아이템 (2x2 그리드)
-    private var totalMenuItems = 8
-
     private let viewModel = MainViewModel()
     private var dataSource: DataSource?
 
@@ -284,74 +280,5 @@ private extension MainViewController {
                 self.placeOrder.accept(())
             }
             .disposed(by: disposeBag)
-    }
-}
-
-extension MainViewController: UICollectionViewDelegate {
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        updateCurrentPageFromScrollPosition()
-    }
-
-    // 버튼을 통한 페이징 애니메이션이 끝났을 때 호출
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        updateCurrentPageFromScrollPosition()
-    }
-
-    private func updateCurrentPageFromScrollPosition() {
-        // 메뉴 아이템 섹션에 대해서만 처리
-        guard let layoutAttributes = collectionView.collectionViewLayout.layoutAttributesForElements(in: collectionView.bounds)?.filter({ $0.representedElementCategory == .cell && $0.indexPath.section == 1 }) else {
-            return
-        }
-
-        // 화면에 보이는 첫 번째 아이템의 인덱스로 페이지 계산
-        if let firstVisibleItem = layoutAttributes.sorted(by: { $0.indexPath.item < $1.indexPath.item }).first {
-            let newPage = firstVisibleItem.indexPath.item / itemsPerPage
-
-            // 페이지가 변경된 경우에만 업데이트
-            if newPage != currentPage {
-                currentPage = newPage
-
-                // 푸터 버튼 상태 업데이트
-                if let footerView = collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionFooter).first as? MenuItemSectionFooter {
-                    updateFooterButtonState(footerView: footerView)
-                }
-            }
-        }
-    }
-}
-
-extension MainViewController: MenuItemFooterViewDelegate {
-    func didTapPreviousButton() {
-        if currentPage > 0 {
-            currentPage -= 1
-            scrollToPage(page: currentPage)
-        }
-    }
-
-    func didTapNextButton() {
-        let maxPage = (totalMenuItems + itemsPerPage - 1) / itemsPerPage - 1 // 총 페이지 수 계산 (올림 나눗셈)
-        if currentPage < maxPage {
-            currentPage += 1
-            scrollToPage(page: currentPage)
-        }
-    }
-
-    private func scrollToPage(page: Int) {
-        let indexPath = IndexPath(item: page * itemsPerPage, section: 1)
-        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-
-        // 푸터뷰 버튼 상태 업데이트를 위해 푸터뷰 참조 가져오기
-        if let footerView = collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionFooter).first as? MenuItemSectionFooter {
-            updateFooterButtonState(footerView: footerView)
-        }
-    }
-
-    // 푸터뷰의 버튼 상태 업데이트 (첫 페이지나 마지막 페이지에서는 버튼 비활성화)
-    private func updateFooterButtonState(footerView: MenuItemSectionFooter) {
-        let maxPage = (totalMenuItems + itemsPerPage - 1) / itemsPerPage - 1
-
-        // 페이지에 따른 버튼 활성화/비활성화
-        footerView.updateButtonState(isPreviousEnabled: currentPage > 0,
-                                    isNextEnabled: currentPage < maxPage)
     }
 }

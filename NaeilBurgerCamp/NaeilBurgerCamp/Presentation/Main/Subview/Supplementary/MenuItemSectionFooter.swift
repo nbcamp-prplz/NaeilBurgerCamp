@@ -1,13 +1,6 @@
 import UIKit
 
-protocol MenuItemFooterViewDelegate: AnyObject {
-    func didTapPreviousButton()
-    func didTapNextButton()
-}
-
 final class MenuItemSectionFooter: UICollectionReusableView {
-    weak var delegate: MenuItemFooterViewDelegate?
-
     private let divider: UIView = {
         let view = UIView()
         view.backgroundColor = .bcDivider1
@@ -23,6 +16,8 @@ final class MenuItemSectionFooter: UICollectionReusableView {
 
         return button
     }()
+
+    private let pageControl = UIPageControl()
 
     private let nextButton: UIButton = {
         let button = UIButton()
@@ -56,15 +51,19 @@ private extension MenuItemSectionFooter {
         setLayout()
         setHierarchy()
         setConstraints()
-        setActions()
     }
 
     func setLayout() {
         backgroundColor = .bcBackground1
+
+        pageControl.pageIndicatorTintColor = .lightGray
+        pageControl.currentPageIndicatorTintColor = .bcText1
+        pageControl.numberOfPages = 5
+        pageControl.currentPage = 2
     }
 
     func setHierarchy() {
-        addSubviews(divider, previousButton, nextButton)
+        addSubviews(divider, previousButton, pageControl, nextButton)
     }
 
     func setConstraints() {
@@ -74,29 +73,21 @@ private extension MenuItemSectionFooter {
         }
 
         previousButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(12)
+            make.leading.equalToSuperview().inset(24)
             make.centerY.equalToSuperview()
             make.size.equalTo(24)
         }
 
         nextButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(12)
+            make.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
             make.size.equalTo(24)
         }
-    }
 
-    func setActions() {
-        previousButton.addTarget(self, action: #selector(previousButtonTapped), for: .touchUpInside)
-        nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
-    }
-
-    @objc func previousButtonTapped() {
-        delegate?.didTapPreviousButton()
-    }
-
-    @objc func nextButtonTapped() {
-        delegate?.didTapNextButton()
+        pageControl.snp.makeConstraints { make in
+            make.centerX.equalToSuperview().offset(12)
+            make.centerY.equalToSuperview()
+        }
     }
 }
 
