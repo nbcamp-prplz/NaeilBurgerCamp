@@ -6,16 +6,22 @@ final class ImageLoader {
     private let cache = NSCache<NSString, UIImage>()
     private let taskStore = OngoingTaskStore()
     private let expiryStore = ExpiryDateStore()
-    private let ttl: TimeInterval = 5
+    private let ttl: TimeInterval = 5 * 60 // 5분
 
-    private init() {}
+    private init() {
+        cache.totalCostLimit = 50 * 1024 * 1024 // 캐시 총 용량 제한 (50MB)
+    }
 
     func loadImage(for urlString: String) async -> UIImage? {
         if let cachedImage = cache.object(forKey: urlString as NSString),
-           let expiryDate = await expiryStore.getExpiryDate(for: urlString),
-           expiryDate > Date() {
-            print("캐시 이미지 사용")
-            return cachedImage
+           let expiryDate = await expiryStore.getExpiryDate(for: urlString) {
+
+            if expiryDate > Date() {
+                print("캐시 이미지 사용")
+                return cachedImage
+            }
+
+            cache.removeObject(forKey: urlString as NSString)
         }
 
         if let ongoingTask = await taskStore.getTask(for: urlString) {
@@ -34,8 +40,9 @@ final class ImageLoader {
             do {
                 let (data, _ ) = try await URLSession.shared.data(from: url)
                 guard let image = UIImage(data: data) else { return nil }
+                let cost = imageCost(image: image)
 
-                cache.setObject(image, forKey: urlString as NSString)
+                cache.setObject(image, forKey: urlString as NSString, cost: cost)
                 await expiryStore.setExpiryDate(for: urlString, to: Date().addingTimeInterval(ttl))
                 print("이미지 다운로드 성공")
                 return image
@@ -53,5 +60,11 @@ final class ImageLoader {
         cache.removeAllObjects()
         await taskStore.clear()
         await expiryStore.clear()
+    }
+
+    private func imageCost(image: UIImage) -> Int {
+        guard let cgImage = image.cgImage else { return 0}
+        let bytesPerPixel = 4
+        return cgImage.height * cgImage.width * bytesPerPixel
     }
 }
