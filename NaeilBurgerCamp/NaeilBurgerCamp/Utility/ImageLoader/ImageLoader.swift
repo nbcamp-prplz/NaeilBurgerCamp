@@ -14,8 +14,8 @@ final class ImageLoader {
     
     func loadImageData(for urlString: String) async -> Data? {
         if let cachedImageData = cache.object(forKey: urlString as NSString),
-           let expiryDate = await expiryStore.getExpiryDate(for: urlString) {
-            
+           let expiryDate = await expiryStore.expiryDate(for: urlString) {
+
             if expiryDate > Date() {
                 print("캐시 이미지 사용")
                 return cachedImageData as Data
@@ -24,7 +24,7 @@ final class ImageLoader {
             cache.removeObject(forKey: urlString as NSString)
         }
         
-        if let ongoingTask = await taskStore.getTask(for: urlString) {
+        if let ongoingTask = await taskStore.task(for: urlString) {
             let image = await ongoingTask.value
             print("중복 요청 방지 후 이미지 데이터 반환")
             return image

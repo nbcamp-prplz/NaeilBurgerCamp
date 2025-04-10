@@ -3,7 +3,7 @@ import Foundation
 final actor ExpiryDateStore {
     private var expiryDates: [String: Date] = [:]
 
-    func getExpiryDate(for key: String) -> Date? {
+    func expiryDate(for key: String) -> Date? {
         return expiryDates[key]
     }
 

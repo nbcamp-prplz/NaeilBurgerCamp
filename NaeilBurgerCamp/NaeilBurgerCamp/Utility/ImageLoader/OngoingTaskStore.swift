@@ -3,7 +3,7 @@ import UIKit
 final actor OngoingTaskStore<T: Sendable> {
     private var tasks: [String: Task<T?, Never>] = [:]
 
-    func getTask(for key: String) -> Task<T?, Never>? {
+    func task(for key: String) -> Task<T?, Never>? {
         return tasks[key]
     }
 
