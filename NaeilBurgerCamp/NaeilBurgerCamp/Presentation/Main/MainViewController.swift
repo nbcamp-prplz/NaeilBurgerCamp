@@ -209,6 +209,13 @@ private extension MainViewController {
             }
             .disposed(by: disposeBag)
 
+        output.orderSuccess
+            .bind { [weak self] in
+                guard let self else { return }
+                self.placeOrderView.showOrderSuccessMessage()
+            }
+            .disposed(by: disposeBag)
+
         output.errorMessage
             .bind { message in
                 print(message)

@@ -4,7 +4,7 @@ protocol OrderRepositoryProtocol {
     func placeOrder(for cart: Cart) async -> Result<Void, FSError>
 }
 
-class OrderRepository: OrderRepositoryProtocol {
+final class OrderRepository: OrderRepositoryProtocol {
     private let service: FirestoreService
 
     init(service: FirestoreService = FirestoreService()) {

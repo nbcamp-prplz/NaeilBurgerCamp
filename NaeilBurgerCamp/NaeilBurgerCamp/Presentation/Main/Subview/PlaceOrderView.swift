@@ -21,6 +21,7 @@ final class PlaceOrderView: UIView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 16
+
         return stackView
     }()
 
@@ -45,6 +46,26 @@ final class PlaceOrderView: UIView {
         button.clipsToBounds = true
 
         return button
+    }()
+
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.color = .white
+        indicator.hidesWhenStopped = true
+
+        return indicator
+    }()
+
+    private lazy var orderSuccessMessageLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .bcPrimary
+        label.text = "주문이 완료되었습니다!"
+        label.textColor = .white
+        label.font = .nanumSquareRound(ofSize: 15, weight: .heavy)
+        label.textAlignment = .center
+        label.isHidden = true
+
+        return label
     }()
 
     override init(frame: CGRect) {
@@ -73,6 +94,24 @@ final class PlaceOrderView: UIView {
             ? "항목을 추가해주세요!"
             : "(\(cart.totalQuantity)) \(cart.totalPrice)원 결제하기"
         orderButton.setTitle(title, for: .normal)
+        activityIndicator.stopAnimating()
+    }
+
+    func showOrderSuccessMessage() {
+        Task {
+            await MainActor.run {
+                orderSuccessMessageLabel.isHidden = false
+            }
+            try? await Task.sleep(nanoseconds: 2_000_000_000)
+            await MainActor.run {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.orderSuccessMessageLabel.alpha = 0
+                }, completion: { _ in
+                    self.orderSuccessMessageLabel.isHidden = true
+                    self.orderSuccessMessageLabel.alpha = 1
+                })
+            }
+        }
     }
 }
 
@@ -94,6 +133,7 @@ private extension PlaceOrderView {
     }
 
     func setHierarchy() {
+        orderButton.addSubviews(activityIndicator, orderSuccessMessageLabel)
         buttonsStackView.addArrangedSubviews(cancelButton, orderButton)
         addSubviews(franchiseLabel, buttonsStackView)
     }
@@ -118,6 +158,15 @@ private extension PlaceOrderView {
         orderButton.snp.makeConstraints { make in
             make.height.equalTo(42)
         }
+
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+
+        orderSuccessMessageLabel.snp.makeConstraints { make in
+            make.directionalHorizontalEdges.equalToSuperview().inset(12)
+            make.centerY.equalToSuperview()
+        }
     }
 
     func setBinding() {
@@ -126,7 +175,13 @@ private extension PlaceOrderView {
             .disposed(by: disposeBag)
 
         orderButton.rx.tap
-            .bind(to: orderButtonTapped)
+            .bind { [weak self] in
+                guard let self else { return }
+                self.orderButton.setTitle("", for: .normal)
+                self.activityIndicator.startAnimating()
+                self.updateOrderButtonIsEnabled(false)
+                self.orderButtonTapped.accept(())
+            }
             .disposed(by: disposeBag)
     }
 }

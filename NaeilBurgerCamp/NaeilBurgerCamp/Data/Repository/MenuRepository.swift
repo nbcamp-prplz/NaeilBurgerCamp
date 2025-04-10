@@ -5,7 +5,7 @@ protocol MenuRepositoryProtocol {
     func fetchMenuItems(for categoryID: String) async -> Result<MenuItems, FSError>
 }
 
-class MenuRepository: MenuRepositoryProtocol {
+final class MenuRepository: MenuRepositoryProtocol {
     private let service: FirestoreService
 
     init(service: FirestoreService = FirestoreService()) {

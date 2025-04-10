@@ -30,6 +30,7 @@ final class MainViewModel: MainViewModelProtocol {
         let cart: Observable<Cart>
         let cancelButtonIsHidden = BehaviorRelay<Bool>(value: true)
         let orderButtonIsEnabled = BehaviorRelay<Bool>(value: false)
+        let orderSuccess = PublishRelay<Void>()
         let errorMessage = BehaviorRelay<String>(value: "")
     }
     
@@ -93,6 +94,14 @@ final class MainViewModel: MainViewModelProtocol {
             .disposed(by: disposeBag)
 
         menuUseCase.errorMessage
+            .bind(to: output.errorMessage)
+            .disposed(by: disposeBag)
+
+        orderUseCase.orderSuccess
+            .bind(to: output.orderSuccess)
+            .disposed(by: disposeBag)
+
+        orderUseCase.errerMessage
             .bind(to: output.errorMessage)
             .disposed(by: disposeBag)
 
