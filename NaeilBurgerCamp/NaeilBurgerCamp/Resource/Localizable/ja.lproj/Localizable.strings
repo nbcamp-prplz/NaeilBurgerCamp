@@ -3,7 +3,7 @@
 "orderDetails" = "注文内訳";
 
 // Place Order View
-"shopInfo" = "NBCamp, iOS Master No. 3";
+"franchiseInfo" = "NBCamp, iOS Master No. 3";
 
 // cancelButton
 "cancel" = "キャンセル";
@@ -17,6 +17,6 @@
 
 // show Reset CartAlert
 "orderCancel" = "注文の取り消し";
-"resetAlertTitle" = "本当に注文をキャンセルしますか？";
+"wantCancel" = "本当に注文をキャンセルしますか？";
 "yes" = "いいえ";
 "no" = "はい";

@@ -3,7 +3,7 @@
 "orderDetails" = "Place Order";
 
 // PlaceOrderView
-"shopInfo" = "NBCamp, iOS Master No. 3";
+"franchiseInfo" = "NBCamp, iOS Master No. 3";
 
 // cancelButton
 "cancel" = "Cancel";
@@ -17,6 +17,6 @@
 
 // showResetCartAlert
 "orderCancel" = "Cancel Order";
-"resetAlertTitle" = "Are you sure you want to cancel?";
+"wantCancel" = "Are you sure you want to cancel?";
 "no" = "No";
 "yes" = "Yes";

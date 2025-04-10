@@ -3,16 +3,15 @@ import Foundation
 extension String {
     enum LocalizedType: String {
         case orderDetails
-        case shopInfo
+        case franchiseInfo
         case cancel
         case orderSuccess
         case pleaseAddItem
         case ordering
         case orderCancel
-        case resetAlertTitle
+        case wantCancel
         case no
         case yes
-        
     }
     
     init(_ localizedType: LocalizedType) {

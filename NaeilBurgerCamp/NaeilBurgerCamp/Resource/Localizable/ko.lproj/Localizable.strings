@@ -3,7 +3,7 @@
 "orderDetails" = "주문 내역";
 
 // PlaceOrderView
-"shopInfo" = "내버캠 iOS 마스터 3호점";
+"franchiseInfo" = "내버캠 iOS 마스터 3호점";
 
 // cancelButton
 "cancel" = "취소";
@@ -17,6 +17,6 @@
 
 // showResetCartAlert
 "orderCancel" = "주문 취소";
-"resetAlertTitle" = "정말로 주문을 취소하시겠어요?";
+"wantCancel" = "정말로 주문을 취소하시겠어요?";
 "no" = "아니요";
 "yes" = "네";

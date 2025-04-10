@@ -10,7 +10,7 @@ final class PlaceOrderView: UIView {
 
     private lazy var franchiseLabel: UILabel = {
         let label = UILabel()
-        label.text = String(.shopInfo)
+        label.text = String(.franchiseInfo)
         label.textColor = .bcMocha
         label.font = .nanumSquareRound(ofSize: 13, weight: .heavy)
 

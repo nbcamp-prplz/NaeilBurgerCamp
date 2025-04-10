@@ -4,7 +4,7 @@ extension UIViewController {
     func showResetCartAlert(completionHandler: @escaping () -> Void) {
         let alert = UIAlertController(
             title: String(.orderCancel),
-            message: String(.resetAlertTitle),
+            message: String(.wantCancel),
             preferredStyle: .alert
         )
 
