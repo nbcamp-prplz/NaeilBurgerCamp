@@ -17,6 +17,8 @@ final class MenuItemSectionFooter: UICollectionReusableView {
         return button
     }()
 
+    private let pageControl = UIPageControl()
+
     private let nextButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
@@ -53,10 +55,15 @@ private extension MenuItemSectionFooter {
 
     func setLayout() {
         backgroundColor = .bcBackground1
+
+        pageControl.pageIndicatorTintColor = .lightGray
+        pageControl.currentPageIndicatorTintColor = .bcText1
+        pageControl.numberOfPages = 5
+        pageControl.currentPage = 2
     }
 
     func setHierarchy() {
-        addSubviews(divider, previousButton, nextButton)
+        addSubviews(divider, previousButton, pageControl, nextButton)
     }
 
     func setConstraints() {
@@ -66,15 +73,20 @@ private extension MenuItemSectionFooter {
         }
 
         previousButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(12)
+            make.leading.equalToSuperview().inset(24)
             make.centerY.equalToSuperview()
             make.size.equalTo(24)
         }
 
         nextButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(12)
+            make.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
             make.size.equalTo(24)
+        }
+
+        pageControl.snp.makeConstraints { make in
+            make.centerX.equalToSuperview().offset(12)
+            make.centerY.equalToSuperview()
         }
     }
 }

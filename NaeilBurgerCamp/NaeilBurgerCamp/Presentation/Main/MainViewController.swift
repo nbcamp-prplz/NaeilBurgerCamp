@@ -7,10 +7,6 @@ typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
 typealias SnapShot = NSDiffableDataSourceSnapshot<Section, Item>
 
 final class MainViewController: UIViewController {
-    private var currentPage = 0
-    private let itemsPerPage = 4 // 한 페이지에 4개 아이템 (2x2 그리드)
-    private var totalMenuItems = 8
-
     private let viewModel = MainViewModel()
     private var dataSource: DataSource?
 
