@@ -4,7 +4,7 @@ import SnapKit
 final class CartSectionHeader: UICollectionReusableView {
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "주문 내역"
+        label.text = "주문 내역".localized
         label.font = .nanumSquareRound(ofSize: 15, weight: .bold)
         label.textColor = .bcPrimary
         return label

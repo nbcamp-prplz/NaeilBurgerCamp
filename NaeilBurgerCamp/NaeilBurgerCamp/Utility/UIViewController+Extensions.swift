@@ -3,13 +3,14 @@ import UIKit
 extension UIViewController {
     func showResetCartAlert(completionHandler: @escaping () -> Void) {
         let alert = UIAlertController(
-            title: "주문 취소",
-            message: "정말로 주문을 취소하시겠어요?",
+            title: "주문 취소".localized,
+            message: "정말로 주문을 취소하시겠어요?".localized,
             preferredStyle: .alert
         )
 
-        alert.addAction(UIAlertAction(title: "아니요", style: .cancel))
-        alert.addAction(UIAlertAction(title: "네", style: .destructive, handler: { _ in
+        alert.addAction(UIAlertAction(title: "아니요".localized, style: .cancel))
+        alert
+            .addAction(UIAlertAction(title: "네".localized, style: .destructive, handler: { _ in
             completionHandler()
         }))
 
