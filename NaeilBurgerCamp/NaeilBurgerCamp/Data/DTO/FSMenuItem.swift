@@ -14,5 +14,4 @@ struct FSMenuItem: Codable {
     let categoryID: FSString
     let title: FSString
     let price: FSInteger
-    let imageURL: FSString
 }
