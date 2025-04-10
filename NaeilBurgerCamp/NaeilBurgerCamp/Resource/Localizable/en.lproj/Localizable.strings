@@ -13,10 +13,13 @@
 
 // updateOrderButtonTitle
 "pleaseAddItem" = "Please add an item!";
-"ordering" = "(%d) Pay %d Won";
+"ordering" = "(%d) Pay %@ Won";
 
 // showResetCartAlert
 "orderCancel" = "Cancel Order";
 "wantCancel" = "Are you sure you want to cancel?";
 "no" = "No";
 "yes" = "Yes";
+
+// Menu
+"menuItemPrice" = "%@won";

@@ -13,10 +13,13 @@
 
 // updateOrderButtonTitle
 "pleaseAddItem" = "항목을 추가해주세요!";
-"ordering" = "(%d) %d원 주문하기";
+"ordering" = "(%d) %@원 주문하기";
 
 // showResetCartAlert
 "orderCancel" = "주문 취소";
 "wantCancel" = "정말로 주문을 취소하시겠어요?";
 "no" = "아니요";
 "yes" = "네";
+
+// Menu
+"menuItemPrice" = "%@원";
