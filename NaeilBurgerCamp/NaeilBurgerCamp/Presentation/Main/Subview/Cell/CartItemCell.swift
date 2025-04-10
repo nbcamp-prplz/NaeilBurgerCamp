@@ -10,9 +10,9 @@ final class CartItemCell: UICollectionViewCell {
 
     private let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .bcBackground3
+        view.backgroundColor = .bcBackground5
         view.layer.cornerRadius = 8
-        view.layer.shadowColor = UIColor.bcBlack.cgColor
+        view.layer.shadowColor = UIColor.bcText1.cgColor
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowRadius = 5
         view.layer.shadowOpacity = 0.05
@@ -24,7 +24,7 @@ final class CartItemCell: UICollectionViewCell {
     private let itemImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = .dummyBurger
-        imageView.backgroundColor = .bcBackground3
+        imageView.backgroundColor = .bcBackground5
 
         return imageView
     }()
@@ -33,7 +33,7 @@ final class CartItemCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .nanumSquareRound(ofSize: 12, weight: .heavy)
         label.textAlignment = .left
-        label.textColor = .bcPrimary
+        label.textColor = .bcText5
 
         return label
     }()
@@ -42,7 +42,7 @@ final class CartItemCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .nanumSquareRound(ofSize: 10, weight: .heavy)
         label.textAlignment = .left
-        label.textColor = .bcPrimary
+        label.textColor = .bcText5
 
         return label
     }()
@@ -50,15 +50,15 @@ final class CartItemCell: UICollectionViewCell {
     private let minusButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "minus.circle"), for: .normal)
-        button.tintColor = .bcPrimary
-        button.backgroundColor = .bcBackground3
+        button.tintColor = .bcText5
+        button.backgroundColor = .bcBackground5
 
         return button
     }()
 
     private let itemQuantityLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .bcPrimary
+        label.textColor = .bcText5
         label.font = .nanumSquareRound(ofSize: 12, weight: .heavy)
         label.textAlignment = .center
 
@@ -68,23 +68,25 @@ final class CartItemCell: UICollectionViewCell {
     private let plusButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus.circle"), for: .normal)
-        button.tintColor = .bcPrimary
-        button.backgroundColor = .bcBackground3
+        button.tintColor = .bcText5
+        button.backgroundColor = .bcBackground5
 
         return button
     }()
 
     private let divider: UIView = {
         let view = UIView()
-        view.backgroundColor = .bcDivider
+        view.backgroundColor = .bcDivider2
 
         return view
     }()
 
     private let totalPriceLabel: UILabel = { // cell 단위 totalPrice
         let label = UILabel()
-        label.textColor = .bcRed
+        label.textColor = .bcText2
         label.font = .nanumSquareRound(ofSize: 14, weight: .heavy)
+        label.textColor = .bcText2
+        label.font = UIFont.nanumSquareRound(ofSize: 14, weight: .heavy)
 
         return label
     }()
