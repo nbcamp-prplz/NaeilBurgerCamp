@@ -4,7 +4,7 @@ final class ImageLoader {
     static let shared = ImageLoader()
     
     private let cache = NSCache<NSString, NSData>()
-    private let taskStore = OngoingTaskStore()
+    private let taskStore = OngoingTaskStore<Data>()
     private let expiryStore = ExpiryDateStore()
     private let ttl: TimeInterval = 5 * 60 // 5분
     

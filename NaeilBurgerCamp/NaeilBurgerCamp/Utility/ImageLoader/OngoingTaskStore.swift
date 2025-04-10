@@ -1,13 +1,13 @@
 import UIKit
 
-final actor OngoingTaskStore {
-    private var tasks: [String: Task<Data?, Never>] = [:]
+final actor OngoingTaskStore<T: Sendable> {
+    private var tasks: [String: Task<T?, Never>] = [:]
 
-    func getTask(for key: String) -> Task<Data?, Never>? {
+    func getTask(for key: String) -> Task<T?, Never>? {
         return tasks[key]
     }
 
-    func setTask(_ task: Task<Data?, Never>, for key: String) {
+    func setTask(_ task: Task<T?, Never>, for key: String) {
         tasks[key] = task
     }
 
