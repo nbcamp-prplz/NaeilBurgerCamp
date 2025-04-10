@@ -1,12 +1,18 @@
 import UIKit
+import SnapKit
+import RxSwift
+import RxCocoa
 
 final class CartItemCell: UICollectionViewCell {
+    let plusButtonTapped = PublishRelay<Void>()
+    let minusButtonTapped = PublishRelay<Void>()
+    var disposeBag = DisposeBag()
+
     private let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .bcBackground3
         view.layer.cornerRadius = 8
-
-        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowColor = UIColor.bcBlack.cgColor
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowRadius = 5
         view.layer.shadowOpacity = 0.05
@@ -17,7 +23,7 @@ final class CartItemCell: UICollectionViewCell {
 
     private let itemImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage.dummyBurger
+        imageView.image = .dummyBurger
         imageView.backgroundColor = .bcBackground3
 
         return imageView
@@ -25,7 +31,7 @@ final class CartItemCell: UICollectionViewCell {
 
     private let itemTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.nanumSquareRound(ofSize: 12, weight: .heavy)
+        label.font = .nanumSquareRound(ofSize: 12, weight: .heavy)
         label.textAlignment = .left
         label.textColor = .bcPrimary
 
@@ -34,7 +40,7 @@ final class CartItemCell: UICollectionViewCell {
 
     private let itemPriceLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.nanumSquareRound(ofSize: 10, weight: .heavy)
+        label.font = .nanumSquareRound(ofSize: 10, weight: .heavy)
         label.textAlignment = .left
         label.textColor = .bcPrimary
 
@@ -43,7 +49,7 @@ final class CartItemCell: UICollectionViewCell {
 
     private let minusButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "minus"), for: .normal)
+        button.setImage(UIImage(systemName: "minus.circle"), for: .normal)
         button.tintColor = .bcPrimary
         button.backgroundColor = .bcBackground3
 
@@ -53,7 +59,7 @@ final class CartItemCell: UICollectionViewCell {
     private let itemQuantityLabel: UILabel = {
         let label = UILabel()
         label.textColor = .bcPrimary
-        label.font = UIFont.nanumSquareRound(ofSize: 12, weight: .heavy)
+        label.font = .nanumSquareRound(ofSize: 12, weight: .heavy)
         label.textAlignment = .center
 
         return label
@@ -61,7 +67,7 @@ final class CartItemCell: UICollectionViewCell {
 
     private let plusButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.setImage(UIImage(systemName: "plus.circle"), for: .normal)
         button.tintColor = .bcPrimary
         button.backgroundColor = .bcBackground3
 
@@ -78,7 +84,7 @@ final class CartItemCell: UICollectionViewCell {
     private let totalPriceLabel: UILabel = { // cell 단위 totalPrice
         let label = UILabel()
         label.textColor = .bcRed
-        label.font = UIFont.nanumSquareRound(ofSize: 14, weight: .heavy)
+        label.font = .nanumSquareRound(ofSize: 14, weight: .heavy)
 
         return label
     }()
@@ -93,12 +99,19 @@ final class CartItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented.")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+        setBinding()
+    }
+
     func configure(with detail: Cart.Detail) {
         itemImageView.image = .dummyBurger
         itemTitleLabel.text = detail.menuItem.title
         itemPriceLabel.text = String(.menuItemPrice, with: detail.menuItem.price.numberFormatted)
         itemQuantityLabel.text = "\(detail.quantity)"
         totalPriceLabel.text = String(.menuItemPrice, with: detail.totalPrice.numberFormatted)
+        plusButton.isEnabled = detail.quantity < 10
     }
 }
 
@@ -107,16 +120,25 @@ private extension CartItemCell {
         setLayout()
         setHierarchy()
         setConstraints()
+        setBinding()
     }
 
     func setLayout() {
         contentView.backgroundColor = .bcBackground1
-        isUserInteractionEnabled = false
     }
 
     func setHierarchy() {
         contentView.addSubview(containerView)
-        containerView.addSubviews(itemImageView, itemTitleLabel, itemPriceLabel, divider, minusButton, itemQuantityLabel, plusButton, totalPriceLabel)
+        containerView.addSubviews(
+            itemImageView,
+            itemTitleLabel,
+            itemPriceLabel,
+            divider,
+            minusButton,
+            itemQuantityLabel,
+            plusButton,
+            totalPriceLabel
+        )
     }
 
     func setConstraints() {
@@ -171,6 +193,16 @@ private extension CartItemCell {
             make.trailing.equalTo(itemPriceLabel.snp.trailing)
             make.centerY.equalTo(minusButton.snp.centerY)
         }
+    }
+
+    func setBinding() {
+        plusButton.rx.tap
+            .bind(to: plusButtonTapped)
+            .disposed(by: disposeBag)
+
+        minusButton.rx.tap
+            .bind(to: minusButtonTapped)
+            .disposed(by: disposeBag)
     }
 }
 

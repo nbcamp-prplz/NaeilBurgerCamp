@@ -16,7 +16,8 @@ final class MainViewController: UIViewController {
 
     private let selectCategory = BehaviorRelay<String>(value: "")
     private let addMenuItem = PublishRelay<MenuItem>()
-    private let removeMenuItem = PublishRelay<MenuItem>()
+    private let increaseMenuItem = PublishRelay<Int>()
+    private let decreaseMenuItem = PublishRelay<Int>()
     private let resetCart = PublishRelay<Void>()
     private let placeOrder = PublishRelay<Void>()
     private let disposeBag = DisposeBag()
@@ -100,6 +101,20 @@ private extension MainViewController {
                         for: indexPath
                     ) as? CartItemCell else { return UICollectionViewCell() }
                     cell.configure(with: detail)
+                    cell.plusButtonTapped
+                        .bind { [weak self] in
+                            guard let self,
+                                  let newIndexPath = dataSource?.indexPath(for: itemIdentifier) else { return }
+                            self.increaseMenuItem.accept(newIndexPath.item)
+                        }
+                        .disposed(by: cell.disposeBag)
+                    cell.minusButtonTapped
+                        .bind { [weak self] in
+                            guard let self,
+                                  let newIndexPath = dataSource?.indexPath(for: itemIdentifier) else { return }
+                            self.decreaseMenuItem.accept(newIndexPath.item)
+                        }
+                        .disposed(by: cell.disposeBag)
                     return cell
                 }
             })
@@ -153,7 +168,8 @@ private extension MainViewController {
         let input = MainViewModel.Input(
             selectCategory: selectCategory.asObservable(),
             addMenuItem: addMenuItem.asObservable(),
-            removeMenuItem: removeMenuItem.asObservable(),
+            increaseMenuItem: increaseMenuItem.asObservable(),
+            decreaseMenuItem: decreaseMenuItem.asObservable(),
             resetCart: resetCart.asObservable(),
             placeOrder: placeOrder.asObservable()
         )
@@ -237,6 +253,8 @@ private extension MainViewController {
                 }
             }
             .disposed(by: disposeBag)
+
+
 
         placeOrderView.cancelButtonTapped
             .bind { [weak self] in
