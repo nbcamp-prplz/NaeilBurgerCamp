@@ -5,8 +5,7 @@ final class CartItemCell: UICollectionViewCell {
         let view = UIView()
         view.backgroundColor = .bcBackground3
         view.layer.cornerRadius = 8
-
-        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowColor = UIColor.bcBlack.cgColor
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowRadius = 5
         view.layer.shadowOpacity = 0.05
@@ -17,7 +16,7 @@ final class CartItemCell: UICollectionViewCell {
 
     private let itemImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage.dummyBurger
+        imageView.image = .dummyBurger
         imageView.backgroundColor = .bcBackground3
 
         return imageView
@@ -25,7 +24,7 @@ final class CartItemCell: UICollectionViewCell {
 
     private let itemTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.nanumSquareRound(ofSize: 12, weight: .heavy)
+        label.font = .nanumSquareRound(ofSize: 12, weight: .heavy)
         label.textAlignment = .left
         label.textColor = .bcPrimary
 
@@ -34,7 +33,7 @@ final class CartItemCell: UICollectionViewCell {
 
     private let itemPriceLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.nanumSquareRound(ofSize: 10, weight: .heavy)
+        label.font = .nanumSquareRound(ofSize: 10, weight: .heavy)
         label.textAlignment = .left
         label.textColor = .bcPrimary
 
@@ -53,7 +52,7 @@ final class CartItemCell: UICollectionViewCell {
     private let itemQuantityLabel: UILabel = {
         let label = UILabel()
         label.textColor = .bcPrimary
-        label.font = UIFont.nanumSquareRound(ofSize: 12, weight: .heavy)
+        label.font = .nanumSquareRound(ofSize: 12, weight: .heavy)
         label.textAlignment = .center
 
         return label
@@ -78,7 +77,7 @@ final class CartItemCell: UICollectionViewCell {
     private let totalPriceLabel: UILabel = { // cell 단위 totalPrice
         let label = UILabel()
         label.textColor = .bcRed
-        label.font = UIFont.nanumSquareRound(ofSize: 14, weight: .heavy)
+        label.font = .nanumSquareRound(ofSize: 14, weight: .heavy)
 
         return label
     }()
@@ -116,7 +115,16 @@ private extension CartItemCell {
 
     func setHierarchy() {
         contentView.addSubview(containerView)
-        containerView.addSubviews(itemImageView, itemTitleLabel, itemPriceLabel, divider, minusButton, itemQuantityLabel, plusButton, totalPriceLabel)
+        containerView.addSubviews(
+            itemImageView,
+            itemTitleLabel,
+            itemPriceLabel,
+            divider,
+            minusButton,
+            itemQuantityLabel,
+            plusButton,
+            totalPriceLabel
+        )
     }
 
     func setConstraints() {
