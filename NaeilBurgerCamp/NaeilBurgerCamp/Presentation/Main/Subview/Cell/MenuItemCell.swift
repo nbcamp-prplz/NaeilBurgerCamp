@@ -65,7 +65,6 @@ final class MenuItemCell: UICollectionViewCell {
         itemTitleLabel.text = menuItem.title
         itemPriceLabel.text = String(.menuItemPrice, with: menuItem.price.numberFormatted)
     }
-
 }
 
 private extension MenuItemCell {

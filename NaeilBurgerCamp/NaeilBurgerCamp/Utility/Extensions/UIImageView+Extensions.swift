@@ -1,9 +1,9 @@
 import UIKit
 
 extension UIImageView {
-    func setImage(with menuID: String) {
+    func setImage(with menuItemID: String) {
         Task {
-            guard let imageData = await ImageLoader.shared.loadImageData(for: menuID) else {
+            guard let imageData = await ImageLoader.shared.loadImageData(for: menuItemID) else {
                 return
             }
             await MainActor.run {
