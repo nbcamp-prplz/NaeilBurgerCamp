@@ -42,6 +42,7 @@ final class PlaceOrderView: UIView {
         button.backgroundColor = .bcPrimary
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .nanumSquareRound(ofSize: 15, weight: .heavy)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 0)
         button.layer.cornerRadius = 20
         button.clipsToBounds = true
 
@@ -65,6 +66,19 @@ final class PlaceOrderView: UIView {
         label.textAlignment = .center
         label.isHidden = true
 
+        return label
+    }()
+    
+    private lazy var orderQuantityLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .bcBlack
+        label.font = .nanumSquareRound(ofSize: 12, weight: .bold)
+        label.textAlignment = .center
+        label.backgroundColor = .white
+        label.layer.cornerRadius = 15
+        label.layer.masksToBounds = true
+        label.isHidden = true
+        
         return label
     }()
 
@@ -92,12 +106,17 @@ final class PlaceOrderView: UIView {
     func updateOrderButtonTitle(with cart: Cart) {
         let title = cart.totalQuantity == 0
             ? String(.pleaseAddItem)
-            : String(
-                .ordering,
-                with: cart.totalQuantity, cart.totalPrice.numberFormatted
-            )
+            : String(.ordering, with: cart.totalPrice.numberFormatted)
         orderButton.setTitle(title, for: .normal)
+        orderButton.layoutIfNeeded()
         activityIndicator.stopAnimating()
+        
+        if cart.totalQuantity > 0 {
+            orderQuantityLabel.text = String(.totalQuantity, with: cart.totalQuantity)
+            orderQuantityLabel.isHidden = false
+        } else {
+            orderQuantityLabel.isHidden = true
+        }
     }
 
     func showOrderSuccessMessage() {
@@ -136,7 +155,7 @@ private extension PlaceOrderView {
     }
 
     func setHierarchy() {
-        orderButton.addSubviews(activityIndicator, orderSuccessMessageLabel)
+        orderButton.addSubviews(activityIndicator, orderSuccessMessageLabel, orderQuantityLabel)
         buttonsStackView.addArrangedSubviews(cancelButton, orderButton)
         addSubviews(franchiseLabel, buttonsStackView)
     }
@@ -160,6 +179,13 @@ private extension PlaceOrderView {
 
         orderButton.snp.makeConstraints { make in
             make.height.equalTo(42)
+        }
+        
+        orderQuantityLabel.snp.makeConstraints { make in
+            guard let titleLabel = orderButton.titleLabel else { return }
+            make.centerY.equalTo(titleLabel.snp.centerY)
+            make.leading.equalTo(titleLabel.snp.leading).offset(-40)
+            make.width.height.equalTo(30)
         }
 
         activityIndicator.snp.makeConstraints { make in

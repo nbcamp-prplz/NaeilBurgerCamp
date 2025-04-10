@@ -13,6 +13,7 @@ extension String {
         case no
         case yes
         case menuItemPrice
+        case totalQuantity
     }
     
     init(_ localizedType: LocalizedType) {
