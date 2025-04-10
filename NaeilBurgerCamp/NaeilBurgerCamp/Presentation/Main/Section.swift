@@ -40,45 +40,48 @@ enum Section: Hashable {
         }
     }
 
-    var numberOfItemsInSection: Int {
-        switch self {
-        case .categories:
-            return 5
-        case .menuItems:
-            return 8
-        case .cartItems:
-            return 3
-        }
-    }
-
     static func createCategorySection() -> NSCollectionLayoutSection {
-        // 아이템 크기 설정 - estimated로 설정하여 콘텐츠에 따라 너비가 조정되도록 함
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        // 그룹 크기 설정 - 아이템과 동일한 크기로 설정
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(80), heightDimension: .absolute(28)) // fractional로 0.5 변경
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(80),
+            heightDimension: .absolute(28)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
 
-        // 섹션 설정
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous // 가로 스크롤 설정
-        section.interGroupSpacing = 10 // 그룹 간 간격
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 24, bottom: 10, trailing: 24) // 섹션 여백
+        section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 10
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 10,
+            leading: 24,
+            bottom: 10,
+            trailing: 24
+        )
 
         return section
     }
 
     static func createMenuItemSection() -> NSCollectionLayoutSection {
-        // 아이템 크기 설정
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.5),
             heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
+        item.contentInsets = NSDirectionalEdgeInsets(
+            top: 12,
+            leading: 12,
+            bottom: 12,
+            trailing: 12
+        )
 
-        // 수평 그룹 설정 (한 행에 2개의 아이템)
         let horizontalGroupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(0.5)
@@ -89,7 +92,6 @@ enum Section: Hashable {
             count: 2
         )
 
-        // 수직 그룹 설정 (2행으로 구성하여 총 4개의 아이템)
         let verticalGroupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .absolute(400)
@@ -99,14 +101,16 @@ enum Section: Hashable {
             repeatingSubitem: horizontalGroup,
             count: 2
         )
+        verticalGroup.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 12,
+            bottom: 0,
+            trailing: 12
+        )
 
-        verticalGroup.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12)
-
-        // 섹션 설정
         let section = NSCollectionLayoutSection(group: verticalGroup)
         section.orthogonalScrollingBehavior = .groupPaging
 
-        // 푸터 설정
         let footerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .absolute(60)
@@ -118,21 +122,29 @@ enum Section: Hashable {
             alignment: .bottom
         )
         section.boundarySupplementaryItems = [footer]
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 24)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 0,
+            bottom: 0,
+            trailing: 24
+        )
 
         return section
     }
 
     static func createCartItemSection() -> NSCollectionLayoutSection {
-        // 아이템 크기 설정
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12)
+        item.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 12,
+            bottom: 0,
+            trailing: 12
+        )
 
-        // 그룹 크기 설정 (수직 스크롤이므로 한 행에 하나의 아이템)
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .estimated(120)
@@ -142,12 +154,15 @@ enum Section: Hashable {
             subitems: [item]
         )
 
-        // 섹션 설정
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 16 // 아이템 간 간격
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 12, bottom: 16, trailing: 12) // 좌우 여백 설정
+        section.interGroupSpacing = 16
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 12,
+            bottom: 16,
+            trailing: 12
+        )
 
-        // 헤더 설정
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .absolute(40)
