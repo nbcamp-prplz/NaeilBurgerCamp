@@ -1,13 +1,6 @@
 import UIKit
 
-protocol MenuItemFooterViewDelegate: AnyObject {
-    func didTapPreviousButton()
-    func didTapNextButton()
-}
-
 final class MenuItemSectionFooter: UICollectionReusableView {
-    weak var delegate: MenuItemFooterViewDelegate?
-
     private let divider: UIView = {
         let view = UIView()
         view.backgroundColor = .bcDivider1
@@ -56,7 +49,6 @@ private extension MenuItemSectionFooter {
         setLayout()
         setHierarchy()
         setConstraints()
-        setActions()
     }
 
     func setLayout() {
@@ -84,19 +76,6 @@ private extension MenuItemSectionFooter {
             make.centerY.equalToSuperview()
             make.size.equalTo(24)
         }
-    }
-
-    func setActions() {
-        previousButton.addTarget(self, action: #selector(previousButtonTapped), for: .touchUpInside)
-        nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
-    }
-
-    @objc func previousButtonTapped() {
-        delegate?.didTapPreviousButton()
-    }
-
-    @objc func nextButtonTapped() {
-        delegate?.didTapNextButton()
     }
 }
 
