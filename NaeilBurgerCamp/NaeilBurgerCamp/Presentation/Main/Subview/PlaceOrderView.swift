@@ -147,7 +147,7 @@ private extension PlaceOrderView {
         buttonsStackView.snp.makeConstraints { make in
             make.top.equalTo(franchiseLabel.snp.bottom).offset(14)
             make.directionalHorizontalEdges.equalToSuperview().inset(24)
-            make.bottom.equalTo(safeAreaLayoutGuide)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(14)
         }
 
         cancelButton.snp.makeConstraints { make in
