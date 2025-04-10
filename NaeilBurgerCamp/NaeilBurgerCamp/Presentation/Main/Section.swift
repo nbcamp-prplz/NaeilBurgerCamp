@@ -118,6 +118,7 @@ enum Section: Hashable {
             alignment: .bottom
         )
         section.boundarySupplementaryItems = [footer]
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 24)
 
         return section
     }
