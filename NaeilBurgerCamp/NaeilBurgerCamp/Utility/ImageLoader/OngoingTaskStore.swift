@@ -1,6 +1,6 @@
 import UIKit
 
-actor OngoingTaskStore {
+final actor OngoingTaskStore {
     private var tasks: [String: Task<UIImage?, Never>] = [:]
 
     func getTask(for key: String) -> Task<UIImage?, Never>? {
