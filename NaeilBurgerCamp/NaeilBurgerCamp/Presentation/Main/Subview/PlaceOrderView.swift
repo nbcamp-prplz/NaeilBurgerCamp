@@ -10,7 +10,7 @@ final class PlaceOrderView: UIView {
 
     private lazy var franchiseLabel: UILabel = {
         let label = UILabel()
-        label.text = "내버캠 iOS 마스터 3호점"
+        label.text = String(.franchiseInfo)
         label.textColor = .bcMocha
         label.font = .nanumSquareRound(ofSize: 13, weight: .heavy)
 
@@ -28,7 +28,7 @@ final class PlaceOrderView: UIView {
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .bcBackground4
-        button.setTitle("취소", for: .normal)
+        button.setTitle(String(.cancel), for: .normal)
         button.setTitleColor(.bcBlack, for: .normal)
         button.titleLabel?.font = .nanumSquareRound(ofSize: 15, weight: .heavy)
         button.layer.cornerRadius = 20
@@ -59,7 +59,7 @@ final class PlaceOrderView: UIView {
     private lazy var orderSuccessMessageLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .bcPrimary
-        label.text = "주문이 완료되었습니다!"
+        label.text = String(.orderSuccess)
         label.textColor = .white
         label.font = .nanumSquareRound(ofSize: 15, weight: .heavy)
         label.textAlignment = .center
@@ -91,8 +91,8 @@ final class PlaceOrderView: UIView {
 
     func updateOrderButtonTitle(with cart: Cart) {
         let title = cart.totalQuantity == 0
-            ? "항목을 추가해주세요!"
-            : "(\(cart.totalQuantity)) \(cart.totalPrice)원 결제하기"
+        ? String(.pleaseAddItem)
+        : String(.ordering, with: cart.totalQuantity, cart.totalPrice)
         orderButton.setTitle(title, for: .normal)
         activityIndicator.stopAnimating()
     }

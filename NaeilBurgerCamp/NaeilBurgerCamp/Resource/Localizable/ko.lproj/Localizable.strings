@@ -1,0 +1,22 @@
+
+// CartSectionHeader
+"orderDetails" = "주문 내역";
+
+// PlaceOrderView
+"franchiseInfo" = "내버캠 iOS 마스터 3호점";
+
+// cancelButton
+"cancel" = "취소";
+
+// orderSuccessMessageLabel
+"orderSuccess" = "주문이 완료되었습니다!";
+
+// updateOrderButtonTitle
+"pleaseAddItem" = "항목을 추가해주세요!";
+"ordering" = "(%d) %d원 주문하기";
+
+// showResetCartAlert
+"orderCancel" = "주문 취소";
+"wantCancel" = "정말로 주문을 취소하시겠어요?";
+"no" = "아니요";
+"yes" = "네";

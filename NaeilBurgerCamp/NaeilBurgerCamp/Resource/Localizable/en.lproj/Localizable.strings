@@ -1,0 +1,22 @@
+
+// CartSectionHeader
+"orderDetails" = "Place Order";
+
+// PlaceOrderView
+"franchiseInfo" = "NBCamp, iOS Master No. 3";
+
+// cancelButton
+"cancel" = "Cancel";
+
+// orderSuccessMessageLabel
+"orderSuccess" = "Your order is READY!";
+
+// updateOrderButtonTitle
+"pleaseAddItem" = "Please add an item!";
+"ordering" = "(%d) Pay %d Won";
+
+// showResetCartAlert
+"orderCancel" = "Cancel Order";
+"wantCancel" = "Are you sure you want to cancel?";
+"no" = "No";
+"yes" = "Yes";

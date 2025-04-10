@@ -1,0 +1,22 @@
+
+// Cart Section Header
+"orderDetails" = "注文内訳";
+
+// Place Order View
+"franchiseInfo" = "NBCamp, iOS Master No. 3";
+
+// cancelButton
+"cancel" = "キャンセル";
+
+// order Success Message Label
+"orderSuccess" = "注文が完了しました！";
+
+// update Order Butto nTitle
+"pleaseAddItem" = "項目を追加してください！";
+"ordering" = "(%d) %d ウォン支払う";
+
+// show Reset CartAlert
+"orderCancel" = "注文の取り消し";
+"wantCancel" = "本当に注文をキャンセルしますか？";
+"yes" = "いいえ";
+"no" = "はい";
