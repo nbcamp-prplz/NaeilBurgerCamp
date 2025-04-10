@@ -13,7 +13,8 @@
 
 // updateOrderButtonTitle
 "pleaseAddItem" = "Please add an item!";
-"ordering" = "(%d) Pay %@ Won";
+"ordering" = "Pay %@ Won";
+"totalQuantity" = "%d";
 
 // showResetCartAlert
 "orderCancel" = "Cancel Order";

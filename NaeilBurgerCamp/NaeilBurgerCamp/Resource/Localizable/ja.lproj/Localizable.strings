@@ -13,7 +13,8 @@
 
 // update Order Butto nTitle
 "pleaseAddItem" = "項目を追加してください！";
-"ordering" = "(%d) %@ ウォン支払う";
+"ordering" = "%@ ウォン支払う";
+"totalQuantity" = "%d";
 
 // show Reset CartAlert
 "orderCancel" = "注文の取り消し";
