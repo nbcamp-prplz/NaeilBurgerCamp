@@ -42,7 +42,7 @@ final class CartItemCell: UICollectionViewCell {
 
     private let minusButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "minus"), for: .normal)
+        button.setImage(UIImage(systemName: "minus.circle"), for: .normal)
         button.tintColor = .bcPrimary
         button.backgroundColor = .bcBackground3
 
@@ -60,7 +60,7 @@ final class CartItemCell: UICollectionViewCell {
 
     private let plusButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.setImage(UIImage(systemName: "plus.circle"), for: .normal)
         button.tintColor = .bcPrimary
         button.backgroundColor = .bcBackground3
 
