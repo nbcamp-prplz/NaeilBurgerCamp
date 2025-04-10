@@ -155,7 +155,7 @@ private extension MainViewController {
             selectCategory: selectCategory.asObservable(),
             addMenuItem: addMenuItem.asObservable(),
             increaseMenuItem: increaseMenuItem.asObservable(),
-            decreaseMenuItem: increaseMenuItem.asObservable(),
+            decreaseMenuItem: decreaseMenuItem.asObservable(),
             resetCart: resetCart.asObservable(),
             placeOrder: placeOrder.asObservable()
         )

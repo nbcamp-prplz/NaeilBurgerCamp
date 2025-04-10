@@ -102,6 +102,7 @@ final class CartItemCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()
+        setBinding()
     }
 
     func configure(with detail: Cart.Detail) {
