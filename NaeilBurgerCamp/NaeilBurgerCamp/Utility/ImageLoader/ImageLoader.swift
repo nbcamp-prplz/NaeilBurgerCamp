@@ -5,11 +5,15 @@ final class ImageLoader {
 
     private let cache = NSCache<NSString, UIImage>()
     private let taskStore = OngoingTaskStore()
+    private let expiryStore = ExpiryDateStore()
+    private let ttl: TimeInterval = 5
 
     private init() {}
 
     func loadImage(for urlString: String) async -> UIImage? {
-        if let cachedImage = cache.object(forKey: urlString as NSString) {
+        if let cachedImage = cache.object(forKey: urlString as NSString),
+           let expiryDate = await expiryStore.getExpiryDate(for: urlString),
+           expiryDate > Date() {
             print("캐시 이미지 사용")
             return cachedImage
         }
@@ -32,6 +36,7 @@ final class ImageLoader {
                 guard let image = UIImage(data: data) else { return nil }
 
                 cache.setObject(image, forKey: urlString as NSString)
+                await expiryStore.setExpiryDate(for: urlString, to: Date().addingTimeInterval(ttl))
                 print("이미지 다운로드 성공")
                 return image
             } catch {
@@ -47,5 +52,6 @@ final class ImageLoader {
     func clearCache() async {
         cache.removeAllObjects()
         await taskStore.clear()
+        await expiryStore.clear()
     }
 }
