@@ -1,1 +1,22 @@
 
+// CartSectionHeader
+"주문 내역" = "주문 내역";
+
+// PlaceOrderView
+"내버캠 iOS 마스터 3호점" = "내버캠 iOS 마스터 3호점";
+
+// cancelButton
+"취소" = "취소";
+
+// orderSuccessMessageLabel
+"주문이 완료되었습니다!" = "주문이 완료되었습니다!";
+
+// updateOrderButtonTitle
+"항목을 추가해주세요!" = "항목을 추가해주세요!";
+"order_button_title" = "(%d) %d원 주문하기";
+
+// showResetCartAlert
+"주문 취소" = "주문 취소";
+"정말로 주문을 취소하시겠어요?" = "정말로 주문을 취소하시겠어요?";
+"아니요" = "아니요";
+"네" = "네";
