@@ -106,7 +106,7 @@ final class CartItemCell: UICollectionViewCell {
     }
 
     func configure(with detail: Cart.Detail) {
-        itemImageView.image = .dummyBurger
+        itemImageView.setImage(with: detail.menuItem.id)
         itemTitleLabel.text = detail.menuItem.title
         itemPriceLabel.text = String(.menuItemPrice, with: detail.menuItem.price.numberFormatted)
         itemQuantityLabel.text = "\(detail.quantity)"
