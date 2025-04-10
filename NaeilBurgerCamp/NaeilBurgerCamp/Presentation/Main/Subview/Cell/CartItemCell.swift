@@ -96,9 +96,9 @@ final class CartItemCell: UICollectionViewCell {
     func configure(with detail: Cart.Detail) {
         itemImageView.image = .dummyBurger
         itemTitleLabel.text = detail.menuItem.title
-        itemPriceLabel.text = "\(detail.menuItem.price)원"
+        itemPriceLabel.text = "\(detail.menuItem.price.numberFormatted)원"
         itemQuantityLabel.text = "\(detail.quantity)"
-        totalPriceLabel.text = "\(detail.totalPrice)원"
+        totalPriceLabel.text = "\(detail.totalPrice.numberFormatted)원"
     }
 }
 

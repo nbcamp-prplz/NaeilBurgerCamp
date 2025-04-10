@@ -88,13 +88,23 @@ final class PlaceOrderView: UIView {
         orderButton.isEnabled = isEnabled
         orderButton.layer.opacity = isEnabled ? 1.0 : 0.5
     }
-
+    
     func updateOrderButtonTitle(with cart: Cart) {
         let title = cart.totalQuantity == 0
         ? String(.pleaseAddItem)
-        : String(.ordering, with: cart.totalQuantity, cart.totalPrice)
-        orderButton.setTitle(title, for: .normal)
+        : String(.ordering,
+                 with: cart.totalQuantity,
+                 cart.totalPrice.numberFormatted
+        )
+        
+        DispatchQueue.main.async {
+            self.orderButton.setTitle(title, for: .normal)
+        }
+        
         activityIndicator.stopAnimating()
+        print("Formatted Price :  \(cart.totalPrice.numberFormatted)")
+        print("Total Price: \(cart.totalPrice)")
+
     }
 
     func showOrderSuccessMessage() {
