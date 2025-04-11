@@ -162,3 +162,4 @@ open NaeilBurgerCamp.xcodeproj
 
 ## 개발 블로그
 - [NSCache + Actor 기반 이미지 캐시 매니저 구현기(1)](https://soo-hyn.tistory.com/145)
+- [UICollectionView Compositional Layout 1](https://subkyu-ios.tistory.com/41)
