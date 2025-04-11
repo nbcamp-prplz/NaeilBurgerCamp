@@ -65,13 +65,3 @@ private extension CategoryCell {
         }
     }
 }
-
-extension CategoryCell: BCReusableView {
-    static var identifier: String {
-        "CategoryCell"
-    }
-
-    static var reusableViewType: ReusableViewType {
-        .cell
-    }
-}

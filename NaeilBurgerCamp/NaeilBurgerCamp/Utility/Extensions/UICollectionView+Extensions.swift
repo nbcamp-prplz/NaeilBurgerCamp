@@ -11,24 +11,24 @@ extension UICollectionView {
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }
 
-    func register(_ views: (AnyObject & BCReusableView).Type...) {
-        views.forEach {
-            if $0 is UICollectionViewCell.Type {
+    func register(_ metatypes: UICollectionReusableView.Type...) {
+        metatypes.forEach { metatype in
+            if metatype.isHeader {
                 self.register(
-                    $0,
-                    forCellWithReuseIdentifier: $0.identifier
+                    metatype,
+                    forSupplementaryViewOfKind: Self.elementKindSectionHeader,
+                    withReuseIdentifier: metatype.identifier
                 )
-            } else if $0.reusableViewType == .header {
+            } else if metatype.isFooter {
                 self.register(
-                    $0,
-                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: $0.identifier
+                    metatype,
+                    forSupplementaryViewOfKind: Self.elementKindSectionFooter,
+                    withReuseIdentifier: metatype.identifier
                 )
-            } else {
+            } else if metatype.isCell {
                 self.register(
-                    $0,
-                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                    withReuseIdentifier: $0.identifier
+                    metatype,
+                    forCellWithReuseIdentifier: metatype.identifier
                 )
             }
         }

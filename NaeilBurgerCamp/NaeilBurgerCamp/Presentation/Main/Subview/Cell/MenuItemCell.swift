@@ -105,13 +105,3 @@ private extension MenuItemCell {
         }
     }
 }
-
-extension MenuItemCell: BCReusableView {
-    static var identifier: String {
-        "MenuItemCell"
-    }
-
-    static var reusableViewType: ReusableViewType {
-        .cell
-    }
-}

@@ -205,13 +205,3 @@ private extension CartItemCell {
             .disposed(by: disposeBag)
     }
 }
-
-extension CartItemCell: BCReusableView {
-    static var identifier: String {
-        "CartItemCell"
-    }
-
-    static var reusableViewType: ReusableViewType {
-        .cell
-    }
-}

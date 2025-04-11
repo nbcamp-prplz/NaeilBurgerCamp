@@ -37,13 +37,3 @@ private extension CartSectionHeader {
         }
     }
 }
-
-extension CartSectionHeader: BCReusableView {
-    static var identifier: String {
-        "CartSectionHeader"
-    }
-
-    static var reusableViewType: ReusableViewType {
-        .header
-    }
-}

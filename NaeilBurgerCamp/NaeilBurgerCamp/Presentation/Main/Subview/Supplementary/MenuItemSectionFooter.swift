@@ -90,13 +90,3 @@ private extension MenuItemSectionFooter {
         }
     }
 }
-
-extension MenuItemSectionFooter: BCReusableView {
-    static var identifier: String {
-        "MenuItemSectionFooter"
-    }
-
-    static var reusableViewType: ReusableViewType {
-        .footer
-    }
-}
