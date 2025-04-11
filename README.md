@@ -20,6 +20,9 @@
 > 본 프로젝트는 팀원 4인이 Clean Architecture를 기반으로 역할을 나누어 협업하였으며,  
 > `RxSwift` 기반의 비동기 처리와 `Firestore` 실시간 데이터베이스를 활용하여 구현되었습니다.
 
+## 시연 영상
+https://github.com/user-attachments/assets/5d356eef-735b-472c-906e-fb4e2f20e9bd
+
 ## 기술스택
 ### 📌 개발 환경
 - **Swift**  
@@ -51,10 +54,10 @@
 
 
 ## 아키텍처
-![SCR-20250410-tyno](https://github.com/user-attachments/assets/8540408a-3d5e-418f-8a9a-f026b04f4076)
+![버거킹 아키텍처 구조 001](https://github.com/user-attachments/assets/40d35a27-618d-4211-90c1-77a6601b403e)
 
 ## 레이아웃 
-<img src="https://github.com/user-attachments/assets/36becdc1-60f3-4c60-a369-6873abd2cc56" width="800"/>
+<img src="https://github.com/user-attachments/assets/36becdc1-60f3-4c60-a369-6873abd2cc56" width="600"/>
 
 ## 역할 분담
 <div align=center>
@@ -157,5 +160,5 @@ open NaeilBurgerCamp.xcodeproj
 # 실행: ⌘ + R 
 ``` 
 
-## 시연 영상
-https://github.com/user-attachments/assets/5d356eef-735b-472c-906e-fb4e2f20e9bd
+## 개발 블로그
+- [NSCache + Actor 기반 이미지 캐시 매니저 구현기(1)](https://soo-hyn.tistory.com/145)
