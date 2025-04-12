@@ -165,3 +165,4 @@ open NaeilBurgerCamp.xcodeproj
 - [NSCache + Actor 기반 이미지 캐시 매니저 구현기(2)](https://soo-hyn.tistory.com/146)
 - [UICollectionView Compositional Layout 1](https://subkyu-ios.tistory.com/41)
 - [Input & Output 패턴 Part. 1](https://velog.io/@o2k_tech/Input-Output-%ED%8C%A8%ED%84%B4-Part.-1)
+- [SDK Import 없이 Firestore 사용하기](https://youseokhwan.me/blog/using-firestore-without-sdk-import/)
